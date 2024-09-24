@@ -27,13 +27,7 @@ The One Stop Shop aims to be that single application. With the full functionalit
 ## Requirements
 
 ### Definition of MVP
-The One Stop Shop application seeks to address the shortfalls of RIT’s apps by providing a single, mobile-friendly solution for students, faculty, and course assistants. The app will allow students to manage their schedules, track homework deadlines, and receive course-related notifications. Faculty will have the tools to manage classes, assignments, and interact with students, while course assistants will be able to edit grades directly from the app. Regardless of the user, the full functionality of MyCourses will be available anywhere, with even more features to help create a single application that every student can utilize instead of relying on outside resources.
-
-### MVP Goals
-1. Unified Experience: Create an all-in-one platform that integrates essential academic features for students, faculty, and course assistants.
-2. Ease of Use: Ensure a user-friendly interface for quick access to course-related tasks.
-3. Time Management: Help students stay organized with automated calendars and reminders.
-4. Effective Communication: Enable better communication between students, faculty, and course assistants through announcements, notifications, and scheduling tools.
+The One Stop Shop application seeks to address the shortfalls of RIT’s apps by providing a single, mobile-friendly solution for students, faculty, and course assistants. The app will allow students to manage their schedules, track homework deadlines, and receive course-related notifications. Faculty will have the tools to manage classes, assignments, and interact with students, while course assistants will be able to edit grades directly from the app. Regardless of the user, the full functionality of MyCourses will be available anywhere, with even more features to help create a single application that every student can utilize instead of relying on outside resources. One Stop Shop app provides a user-friendly interface for quick access to course-related tasks. The app enables better communication between students, faculty, and course assistants through announcements, notifications, and scheduling tools.
 
 ### MVP Features
 
