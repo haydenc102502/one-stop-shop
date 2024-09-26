@@ -58,3 +58,8 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 - **High Priority**: As a student, I want to receive push notifications for course announcements so that I don’t miss important updates.
 - **Low Priority**: As a student, I want to have changes and updates seen in the TODO section of the application reflected on my calendar so I can stay on top of what needs to be done.
 - **Low Priority**: As a student, I want to see a widget notification when my grades are assigned, so that I can see my grades as soon as they are posted.
+
+## Use-case diagram
+
+![HW4UseCaseDiagram drawio (3)](https://github.com/user-attachments/assets/59c0e222-78ae-4d51-a549-6585090a8aa9)
+
