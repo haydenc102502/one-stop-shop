@@ -7,6 +7,7 @@
 3. [Requirements](#requirements)
    1. [Definition of MVP](#definition-of-mvp)
    2. [MVP Features](#mvp-features)
+4. [Use Case Diagram](#use-case-diagram)
 
 ## Team Information
 
@@ -59,7 +60,6 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 - **Low Priority**: As a student, I want to have changes and updates seen in the TODO section of the application reflected on my calendar so I can stay on top of what needs to be done.
 - **Low Priority**: As a student, I want to see a widget notification when my grades are assigned, so that I can see my grades as soon as they are posted.
 
-## Use-case diagram
+## Use Case Diagram
 
-![HW4UseCaseDiagram drawio (3)](https://github.com/user-attachments/assets/59c0e222-78ae-4d51-a549-6585090a8aa9)
-
+![One-Stop-Shop Use Case Diagram](https://github.com/user-attachments/assets/59c0e222-78ae-4d51-a549-6585090a8aa9)
