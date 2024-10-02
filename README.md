@@ -41,24 +41,59 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 #### An easy-to-use and comprehensive calendar page for students and faculty
 
 - **High Priority**: As a student, I want to view a calendar with all of my upcoming assignments and events so I can stay on top of my work.
+[Acceptance Criteria: The calendar should display all upcoming assignments and events]
+[Acceptance Criteria: Assignments and Events icons should be intuitive and clear to understand. They should not clutter the workspace.]
+
+
 - **Medium Priority**: As a student, I want to add reminders and events to my calendar so I can keep track of off-schedule events.
+[Acceptance Criteria: Students should be able to add, edit, and delete reminders and events]
+
 - **High Priority**: As a student, I want events to be added to my calendar automatically so I can save time and energy.
+[Acceptance Criteria: Events should appear in the student's calendar automatically after being added to the system]
+[Acceptance Criteria: after deadlines for HWs/Quizzes/etc are modified, the calendar should appropriately display the updated deadlines]
+
 - **Low Priority**: As a student, I want to book office hour appointments with professors through the app so that I can easily schedule meetings.
+[Acceptance Criteria: Students should be able to see available time slots and book an appointment]
+
 - **Low Priority**: As a faculty member, I want to see when students have office hours so I don't double book.
+[Acceptance Criteria: Faculty should receive a notification when a student books an office hour]
+
+
 
 #### Full functioning MyCourses page for easy mobile use for students, faculty, and course assistants
 
 - **High Priority**: As a student, I want to check my grades in the app so that I can monitor my academic performance.
+[Acceptance Criteria: Grades should be updated in the app after being posted by faculty]
+[Acceptance Criteria: Students should be able to quickly navigate to their grades]
+
 - **High Priority**: As a faculty member, I want to post course announcements in the app so that my students can receive updates.
+[Acceptance Criteria: Announcements should be visible to students after being posted]
+[Acceptance Criteria: Faculty members should be able to create and post announcements onto the app]
+
 - **High Priority**: As a faculty member, I want to manage homework and assignment deadlines through the app so that students can stay informed.
+[Acceptance Criteria: Faculty should be able to add, edit, and delete deadlines, and students should be notified of changes]
+
 - **Medium Priority**: As a faculty member, I want to quickly see assignment completion rates so I can send reminders accordingly.
+[Acceptance Criteria: Faculty should be able to view a summary of assignment completion rate metrics]
+[Acceptance Criteria: Faculty can easily send appropriate reminders to students that haven’t completed the work through the app]
+
 - **Medium Priority**: As a course assistant, I want to be able to submit grades on the app so I don't have to open a browser to update grades.
+[Acceptance Criteria: Grades submitted by course assistants should be reflected in the app for students to view]
+
 
 #### Fully functional TODO for students with a comprehensive notification system
 
 - **High Priority**: As a student, I want to receive push notifications for course announcements so that I don’t miss important updates.
+[Acceptance Criteria: Push notifications should be sent after an announcement is posted]
+[Acceptance Criteria: Push notifications should also produce a notification sound.]
+
+
 - **Low Priority**: As a student, I want to have changes and updates seen in the TODO section of the application reflected on my calendar so I can stay on top of what needs to be done.
+[Acceptance Criteria: Updates in the TODO section should be synchronized with the calendar]
+
 - **Low Priority**: As a student, I want to see a widget notification when my grades are assigned, so that I can see my grades as soon as they are posted.
+[Acceptance Criteria: Widget notifications should appear after grades are posted]
+[Acceptance Criteria: Widget notifications should appear on the top of the phone screen as a banner, even if the application is off.]
 
 ## Use Case Diagram
 
