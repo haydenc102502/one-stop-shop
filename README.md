@@ -90,8 +90,6 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
   - *Acceptance Criteria:* Widget notifications should appear after grades are posted
   - *Acceptance Criteria:* Widget notifications should appear on the top of the phone screen as a banner, even if the application is off.
 
----
-
 ## Use Case Diagram
 
 ![One-Stop-Shop Use Case Diagram](https://github.com/user-attachments/assets/59c0e222-78ae-4d51-a549-6585090a8aa9)
