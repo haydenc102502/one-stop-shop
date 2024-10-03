@@ -49,13 +49,13 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 
 - **High Priority**: As a student, I want events to be added to my calendar automatically so I can save time and energy
   - *Acceptance Criteria:* Events should appear in the student's calendar automatically after being added to the system
-  - *Acceptance Criteria:* after deadlines for HWs/Quizzes/etc are modified, the calendar should appropriately display the updated deadlines
+  - *Acceptance Criteria:* After deadlines for HWs/Quizzes/etc are modified, the calendar should appropriately display the updated deadlines
 
 - **Low Priority**: As a student, I want to book office hour appointments with professors through the app so that I can easily schedule meetings
   - *Acceptance Criteria:* Students should be able to see available time slots and book an appointment
 
 - **Low Priority**: As a faculty member, I want to see when students have office hours so I don't double book
-  - *Acceptance Criteria:* Faculty should receive a notification when a student books an office hour
+  - *Acceptance Criteria:* Faculty should receive a notification when a student books office hours
 
 #### Full functioning MyCourses page for easy mobile use for students, faculty, and course assistants
 
@@ -65,7 +65,7 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 
 - **High Priority**: As a faculty member, I want to post course announcements in the app so that my students can receive updates
   - *Acceptance Criteria:* Announcements should be visible to students after being posted
-  - *Acceptance Criteria:* Faculty members should be able to create and post announcements onto the app
+  - *Acceptance Criteria:* Faculty members should be able to create and post announcements on the app
 
 - **High Priority**: As a faculty member, I want to manage homework and assignment deadlines through the app so that students can stay informed
   - *Acceptance Criteria:* Faculty should be able to add, edit, and delete deadlines, and students should be notified of changes
@@ -81,14 +81,14 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 
 - **High Priority**: As a student, I want to receive push notifications for course announcements so that I don’t miss important updates
   - *Acceptance Criteria:* Push notifications should be sent after an announcement is posted
-  - *Acceptance Criteria:* Push notifications should also produce a notification sound
+  - *Acceptance Criteria:* Push notifications should produce a notification sound
 
 - **Low Priority**: As a student, I want to have changes and updates seen in the TODO section of the application reflected on my calendar so I can stay on top of what needs to be done
   - *Acceptance Criteria:* Updates in the TODO section should be synchronized with the calendar
 
 - **Low Priority**: As a student, I want to see a widget notification when my grades are assigned, so that I can see my grades as soon as they are posted
   - *Acceptance Criteria:* Widget notifications should appear after grades are posted
-  - *Acceptance Criteria:* Widget notifications should appear on the top of the phone screen as a banner, even if the application is off
+  - *Acceptance Criteria:* Widget notifications should appear at the top of the phone screen as a banner, even if the application is not open
 
 ## Use Case Diagram
 
