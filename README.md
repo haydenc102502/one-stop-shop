@@ -95,4 +95,4 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 ![One-Stop-Shop Use Case Diagram](https://github.com/user-attachments/assets/59c0e222-78ae-4d51-a549-6585090a8aa9)
 
 ## Domain Model
-![One-Stop-Shop Domain-Model](assets\domain-model.png)
+![One-Stop-Shop Domain-Model](./assets/domain-model.png)
