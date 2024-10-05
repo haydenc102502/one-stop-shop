@@ -8,6 +8,7 @@
    1. [Definition of MVP](#definition-of-mvp)
    2. [MVP Features](#mvp-features)
 4. [Use Case Diagram](#use-case-diagram)
+5. [Domain Model](#domain-model)
 
 ## Team Information
 
