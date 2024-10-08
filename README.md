@@ -1,25 +1,20 @@
 # One Stop Shop
 
+## Introduction
+
+One Stop Shop is an all-in-one mobile application for RIT students, faculty, and course assistants to manage course schedules, assignments, deadlines, grades, and announcements in one place. It aims to integrate the functionalities of MyCourses and other tools into a single, convenient application to enhance productivity and reduce the need for external applications.
+
 ## Table of Contents
 
-1. [Team Information](#team-information)
-2. [Executive Summary](#executive-summary)
-3. [Requirements](#requirements)
-   1. [Definition of MVP](#definition-of-mvp)
-   2. [MVP Features](#mvp-features)
-4. [Use Case Diagram](#use-case-diagram)
-5. [Domain Model](#domain-model)
-
-## Team Information
-
-**Team name:** One Stop Shop
-
-### Team members
-
-- AJ Barea
-- Hayden Cabral
-- Roman Kozulia
-- Ivan Rojas
+1. [Executive Summary](#executive-summary)
+2. [Requirements](#requirements)
+   - [Definition of MVP](#definition-of-mvp)
+   - [MVP Features](#mvp-features)
+3. [Diagrams](#diagrams)
+   - [Use Case Diagram](#use-case-diagram)
+   - [Domain Model](#domain-model)
+   - [Sequence Diagram](#sequence-diagram)
+4. [Team Information](#team-information)
 
 ## Executive Summary
 
@@ -91,10 +86,27 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
   - *Acceptance Criteria:* Widget notifications should appear after grades are posted
   - *Acceptance Criteria:* Widget notifications should appear at the top of the phone screen as a banner, even if the application is not open
 
-## Use Case Diagram
+## Diagrams
+
+### Use Case Diagram
 
 ![One-Stop-Shop Use Case Diagram](./assets/images/use-case.png)
 
-## Domain Model
+### Domain Model
 
 ![One-Stop-Shop Domain-Model](./assets/images/domain-model.png)
+
+### Sequence Diagram
+
+![One-Stop-Shop Sequence Diagram](./assets/images/sequence.png)
+
+## Team Information
+
+**Team name:** One Stop Shop
+
+### Team members
+
+- AJ Barea
+- Hayden Cabral
+- Roman Kozulia
+- Ivan Rojas
