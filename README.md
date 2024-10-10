@@ -14,6 +14,7 @@ One Stop Shop is an all-in-one mobile application for RIT students, faculty, and
    - [Use Case Diagram](#use-case-diagram)
    - [Domain Model](#domain-model)
    - [Sequence Diagram](#sequence-diagram)
+   - [Software Architecture](#software-architecture)
 4. [Team Information](#team-information)
 
 ## Executive Summary
@@ -99,6 +100,12 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 ### Sequence Diagram
 
 ![One-Stop-Shop Sequence Diagram](./assets/images/sequence.png)
+
+### Software Architecture
+
+For our architectural stack, we wanted to keep things simple and easy to track so we utilized a common mobile app architecture framework and modified it to conform to the needs of our application.
+
+![One-Stop-Shop Software Architecture Diagram](./assets/images/architecture-diagram.png)
 
 ## Team Information
 
