@@ -91,21 +91,27 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 
 ### Use Case Diagram
 
-![One-Stop-Shop Use Case Diagram](./assets/images/use-case.png)
+![One-Stop-Shop Use Case Diagram](./assets/diagrams/cropped-use-case.png)
+
+*This Use Case Diagram shows the interactions between students, faculty, and course assistants, focusing on calendar management, announcements, and grading within the One Stop Shop system.*
 
 ### Domain Model
 
-![One-Stop-Shop Domain-Model](./assets/images/domain-model.png)
+![One-Stop-Shop Domain-Model](./assets/diagrams/domain-model.png)
+
+*This Domain Model visualizes the relationships between students, faculty, course assistants, and various components of the One Stop Shop system, including assignments, announcements, calendars, and notifications.*
 
 ### Sequence Diagram
 
-![One-Stop-Shop Sequence Diagram](./assets/images/sequence.png)
+![One-Stop-Shop Sequence Diagram](./assets/diagrams/sequence.png)
+
+*This Sequence Diagram illustrates the interactions between faculty, students, and key system components like the calendar, announcements, assignments, and gradebook. It shows how actions such as posting announcements and assignments trigger notifications and updates across the system.*
 
 ### Software Architecture
 
-For our architectural stack, we wanted to keep things simple and easy to track so we utilized a common mobile app architecture framework and modified it to conform to the needs of our application.
+![One-Stop-Shop Software Architecture Diagram](./assets//diagrams/architecture-diagram.png)
 
-![One-Stop-Shop Software Architecture Diagram](./assets/images/architecture-diagram.png)
+*This Software Architecture Diagram shows the different layers of the One Stop Shop system, from the user interface built with React Native down to external services like push notifications and calendar API integration. Each layer handles distinct responsibilities, ensuring efficient data flow and feature functionality across the application.*
 
 ## Team Information
 
