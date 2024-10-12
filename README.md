@@ -2,7 +2,9 @@
 
 ## Introduction
 
-One Stop Shop is an all-in-one mobile application for RIT students, faculty, and course assistants to manage course schedules, assignments, deadlines, grades, and announcements in one place. It aims to integrate the functionalities of MyCourses and other tools into a single, convenient application to enhance productivity and reduce the need for external applications.
+One Stop Shop is an all-in-one mobile application designed to streamline the academic experience for RIT students, faculty, and course assistants. By consolidating course schedules, assignments, deadlines, grades, and announcements into a single, user-friendly platform, it eliminates the hassle of juggling multiple apps and websites.
+
+Built with React Native for cross-platform compatibility, One Stop Shop integrates the functionalities of MyCourses, and other essential tools, enhancing productivity and ensuring that important academic information is always at your fingertips.
 
 ## Table of Contents
 
@@ -14,7 +16,7 @@ One Stop Shop is an all-in-one mobile application for RIT students, faculty, and
    - [Use Case Diagram](#use-case-diagram)
    - [Domain Model](#domain-model)
    - [Sequence Diagram](#sequence-diagram)
-   - [Software Architecture](#software-architecture)
+   - [Software Architecture Diagram](#software-architecture-diagram)
    - [Class Diagram](#class-diagram)
 4. [Team Information](#team-information)
 
@@ -108,7 +110,7 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 
 *This Sequence Diagram illustrates the interactions between faculty, students, and key system components like the calendar, announcements, assignments, and gradebook. It shows how actions such as posting announcements and assignments trigger notifications and updates across the system.*
 
-### Software Architecture
+### Software Architecture Diagram
 
 ![One-Stop-Shop Software Architecture Diagram](./assets//diagrams/architecture-diagram.png)
 
