@@ -1,0 +1,171 @@
+---
+title: One Stop Shop Class Diagram
+---
+classDiagram
+    User <|-- Student
+    User <|-- Faculty
+    User <|-- CourseAssistant
+
+    User o-- Calendar
+    User o-- ToDoList
+    User o-- Notification
+
+    Student "1" -- "many" Course : enrolls in
+    Faculty "1" -- "many" Course : teaches
+    CourseAssistant "many" -- "many" Course : assists with
+
+    Course "1" o-- "many" Assignment
+    Course "1" o-- "many" Announcement
+    Course "1" o-- "many" Grade
+
+    Assignment "1" -- "many" Grade : has
+    Student "1" -- "many" Grade : receives
+    Assignment "1" -- "many" Submission : includes
+
+    Calendar "1" o-- "many" Event
+
+    ToDoList "1" o-- "many" ToDoItem
+
+    Appointment "1" o-- "1" Student
+    Appointment "1" o-- "1" Faculty
+
+    class User {
+        <<abstract>>
+        - userID
+        - name
+        - email
+        - password
+        - role
+        + login()
+        + logout()
+        + viewNotifications()
+        + viewCalendar()
+    }
+
+    class Student {
+        - coursesEnrolled : List~Course~
+        - grades : Map~Assignment, Grade~
+        + viewGrades()
+        + receivePushNotification()
+        + manageToDoList()
+        + bookAppointment()
+    }
+
+    class Faculty {
+        - coursesTaught : List~Course~
+        + postAnnouncement()
+        + manageAssignments()
+        + updateGrades()
+        + viewAssignmentCompletionRates()
+        + manageOfficeHours()
+        + receiveAppointmentNotification()
+    }
+
+    class CourseAssistant {
+        - coursesAssisting : List~Course~
+        + submitGrades()
+    }
+
+    class Course {
+        - courseID
+        - courseName
+        - faculty : Faculty
+        - assistants : List~CourseAssistant~
+        - students : List~Student~
+        - assignments : List~Assignment~
+        - announcements : List~Announcement~
+        + addAssignment()
+        + postAnnouncement()
+        + manageGrades()
+    }
+
+    class Assignment {
+        - assignmentID
+        - title
+        - description
+        - dueDate
+        - course : Course
+        + updateDeadline()
+    }
+
+    class Announcement {
+        - announcementID
+        - content
+        - datePosted
+        - course : Course
+        + post()
+        + edit()
+        + delete()
+    }
+
+    class Grade {
+        - student : Student
+        - assignment : Assignment
+        - score
+        + updateScore()
+    }
+
+    class Calendar {
+        - user : User
+        - events : List~Event~
+        + addEvent()
+        + editEvent()
+        + deleteEvent()
+        + syncWithToDoList()
+    }
+
+    class Event {
+        - eventID
+        - title
+        - description
+        - dateTime
+        - associatedCourse : Course
+        + notifyUser()
+    }
+
+    class ToDoList {
+        - user : User
+        - items : List~ToDoItem~
+        + addItem()
+        + editItem()
+        + deleteItem()
+        + markAsDone()
+    }
+
+    class ToDoItem {
+        - itemID
+        - description
+        - dueDate
+        - status
+        + updateStatus()
+    }
+
+    class Notification {
+        - notificationID
+        - content
+        - dateTime
+        - user : User
+        + send()
+        + read()
+    }
+
+    class Appointment {
+        - appointmentID
+        - student : Student
+        - faculty : Faculty
+        - dateTime
+        + schedule()
+        + cancel()
+        + notifyFaculty()
+        + notifyStudent()
+    }
+
+    class Submission {
+        - submissionID
+        - student : Student
+        - assignment : Assignment
+        - timestamp
+        - content
+        + submit()
+        + edit()
+    }
