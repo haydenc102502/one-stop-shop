@@ -20,6 +20,9 @@ Built with React Native for cross-platform compatibility, One Stop Shop integrat
    - [Class Diagram](#class-diagram)
 4. [Team Information](#team-information)
 
+
+5. [Development Setup](#development-setup)
+
 ## Executive Summary
 
 RIT students today struggle with keeping track of their course schedules. With the mobile version of MyCourses, Pulse, lacking basic features, as well as having to rely on third-party calendar applications to manage schedules and deadlines, students and faculty do not currently have a single application to solve these problems.
@@ -132,3 +135,28 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 - Hayden Cabral
 - Roman Kozulia
 - Ivan Rojas
+
+
+## Development Setup
+
+The application is built using Expo
+
+ **Apple machine setup**
+Install homebrew: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+Run: brew install --cask expo-xde
+
+**Windows machine setup**
+Expo requires Node.js to be installed. You can download and install Node.js from its official website.
+npm install -g expo-cli
+
+**Running the application**
+1. Navigate to the OneStopShop directory
+
+Run:  npx expo start
+
+Choose i to run an iOS simulator(only available on Mac OS), or a an Android.
+Android simulation requires Android studio to be installed and configured for simulation.
+
+
+
+
