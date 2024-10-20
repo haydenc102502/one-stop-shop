@@ -139,27 +139,44 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 
 ## Development Setup
 
-The application is built using Expo
+The application is built using Expo framework and TypeScript 
+
+
+Expo documentation can be found here: 
+
+https://docs.expo.dev/get-started/start-developing/
 
  **Apple machine setup**
 
-Install homebrew: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-Run: brew install --cask expo-xde
+Install homebrew: 
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Run: 
+```bash
+brew install --cask expo-xde
+```
 
 **Windows machine setup**
 
 Expo requires Node.js to be installed. You can download and install Node.js from its official website.
+
+```bash
 npm install -g expo-cli
+```
 
 **Running the application**
 
 Navigate to the OneStopShop directory
+
+**Run the app**
+
 ```bash
-# Run the command
 npx expo start
+```
 
-
-Choose i to run an iOS simulator(only available on Mac OS), or a an Android.
+Choose "i" to run an iOS simulator(only available on Mac OS), or "a" to run Android.
 Android simulation requires Android studio to be installed and configured for simulation.
 
 
