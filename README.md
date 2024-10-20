@@ -154,9 +154,10 @@ npm install -g expo-cli
 **Running the application**
 
 Navigate to the OneStopShop directory
-\`\`\`sh
-Run: npx expo start
-\`\`\`
+```bash
+# Run the command
+npx expo start
+
 
 Choose i to run an iOS simulator(only available on Mac OS), or a an Android.
 Android simulation requires Android studio to be installed and configured for simulation.
