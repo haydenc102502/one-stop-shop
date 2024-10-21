@@ -19,9 +19,8 @@ Built with React Native for cross-platform compatibility, One Stop Shop integrat
    - [Software Architecture Diagram](#software-architecture-diagram)
    - [Class Diagram](#class-diagram)
 4. [Team Information](#team-information)
-
-
 5. [Development Setup](#development-setup)
+6. [Libraries used](#libraries-used)
 
 ## Executive Summary
 
@@ -180,5 +179,9 @@ Choose "i" to run an iOS simulator(only available on Mac OS), or "a" to run Andr
 Android simulation requires Android studio to be installed and configured for simulation.
 
 
+
+## Libraries used
+
+React Native Calendars  https://github.com/wix/react-native-calendars
 
 
