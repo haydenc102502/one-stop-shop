@@ -1,14 +1,33 @@
 import { StyleSheet } from 'react-native';
-
+import { useState } from 'react';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { Calendar, DateData } from 'react-native-calendars'; // Import DateData type
 
-export default function TabOneScreen() {
+export default function CalendarScreen() {
+  const [selected, setSelected] = useState('');
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+
+      {/* Calendar Component */}
+      <View style={styles.calendarContainer}>
+        <Calendar
+          onDayPress={(day: DateData) => { // Explicitly typing 'day' as DateData
+            setSelected(day.dateString);
+            console.log('selected day', day);
+          }}
+          markedDates={{
+            [selected]: {
+              selected: true,
+              disableTouchEvent: true,
+              selectedDotColor: 'orange',
+            },
+          }}
+          style={styles.calendar}
+        />
+      </View>
     </View>
   );
 }
@@ -17,7 +36,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 20,
   },
   title: {
     fontSize: 20,
@@ -27,5 +47,15 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  calendarContainer: {
+    width: '100%',
+    paddingHorizontal: 10,
+    flex: 1,
+  },
+  calendar: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 350,
   },
 });
