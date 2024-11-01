@@ -19,52 +19,44 @@ const initialUserData: User[] = [
 ];
 
 // Initial Calendar data
-const initialCalendarData: Record<string, CalendarEntry[]> = {
-  '2024-10-28': [
-    { userId: 'as1899', time: '10:00 AM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT },
-  ],
-  '2024-10-29': [
-    { userId: 'as1899', time: '10:00 AM', description: 'SWEN 444 class canceled', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT },
-    { userId: 'as1899', time: '2:00 PM', description: 'New assignment posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT },
-    { userId: 'as1899', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES },
-  ],
-};
+// Initial Calendar data as an array of CalendarEntry objects
+const initialCalendarData: CalendarEntry[] = [
+  { userId: 'as1899', day: '2024-10-28', time: '10:00 AM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT },
+  { userId: 'as1899', day: '2024-10-29', time: '10:00 AM', description: 'SWEN 444 class canceled', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT },
+  { userId: 'as1899', day: '2024-10-29', time: '2:00 PM', description: 'New assignment posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT },
+  { userId: 'as1899', day: '2024-10-29', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES },
+];
+
 
 // Define context types
 interface DataContextType {
   users: User[];
-  currentUserId: string | null; // Store only the userId
+  currentUserId: string | null;
   setCurrentUserId: (user: string) => void;
-  calendarData: Record<string, CalendarEntry[]>;
-  addCalendarEntry: (date: string, entry: CalendarEntry) => void;
+  calendarData: CalendarEntry[];  // Change from Record<string, CalendarEntry[]>
+  addCalendarEntry: (entry: CalendarEntry) => void;
   getEntriesByUserId: (userId: string) => CalendarEntry[];
 }
+
 
 // Context for data store and functions
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [users] = useState<User[]>(initialUserData);
-  const [calendarData, setCalendarData] = useState<Record<string, CalendarEntry[]>>(initialCalendarData);
+  const [calendarData, setCalendarData] = useState<CalendarEntry[]>(initialCalendarData);
   const [currentUserId, setCurrentUserId] = useState<string | null>('as1899');// Initialize with null or a default user
 
   // Add a new entry to the calendar
-  const addCalendarEntry = (date: string, entry: CalendarEntry) => {
-    setCalendarData((prevData) => ({
-      ...prevData,
-      [date]: prevData[date] ? [...prevData[date], entry] : [entry],
-    }));
+  const addCalendarEntry = (entry: CalendarEntry) => {
+    setCalendarData((prevData) => [...prevData, entry]);
   };
 
   // Get entries by userId
   const getEntriesByUserId = (userId: string): CalendarEntry[] => {
-    const entries: CalendarEntry[] = [];
-    for (const date in calendarData) {
-      const userEntries = calendarData[date].filter(entry => entry.userId === userId);
-      entries.push(...userEntries);
-    }
-    return entries;
+    return calendarData.filter(entry => entry.userId === userId);
   };
+  
 
   return (
     <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId }}>
