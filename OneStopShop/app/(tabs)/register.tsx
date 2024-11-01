@@ -2,15 +2,15 @@ import { UserRole } from '@/data-store/userRole';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
 
-  const handleLogin = () => {
-    // TODO: Implement login logic
+  const handleRegister = () => {
+    // TODO: Implement registration logic
     console.log('First Name:', firstName);
     console.log('Last Name:', lastName);
     console.log('Email:', email);
@@ -20,27 +20,47 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
+      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+        <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
-      <Text style={styles.title}>One Stop Shop</Text>
-      <TextInput
-        id="loginEmail"
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        id="loginPassword"
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-      />
+      <Text style={styles.title}>Create Your Account</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          id="registerFirstName"
+          style={styles.input}
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+          autoComplete="given-name"
+        />
+        <TextInput
+          id="registerLastName"
+          style={styles.input}
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+          autoComplete="family-name"
+        />
+        <TextInput
+          id="registerEmail"
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+        />
+        <TextInput
+          id="registerPassword"
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+          autoComplete="new-password"
+        />
+      </View>
       <View style={styles.roleButtonsContainer}>
         <View style={styles.roleButtons}>
           <TouchableOpacity
@@ -49,14 +69,6 @@ export default function LoginScreen() {
           >
             <Text style={[styles.roleButtonText, role === UserRole.STUDENT && styles.activeButtonText]}>
               Student
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.roleButton, role === UserRole.FACULTY && styles.activeButton]}
-            onPress={() => setRole(UserRole.FACULTY)}
-          >
-            <Text style={[styles.roleButtonText, role === UserRole.FACULTY && styles.activeButtonText]}>
-              Faculty
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -87,6 +99,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  inputContainer: {
+    marginTop: 70,
+    width: '100%',
+    alignItems: 'center',
+  },
   input: {
     width: '85%',
     padding: 15,
@@ -101,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
     borderRadius: 5,
     marginVertical: 15,
-    marginTop: 100,
+    marginTop: 50,
   },
   roleButtons: {
     flexDirection: 'row',
@@ -112,27 +129,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
     borderRadius: 5,
     alignItems: 'center',
-    marginHorizontal: 0,
   },
   activeButton: {
     backgroundColor: '#fff',
   },
   roleButtonText: {
-    paddingHorizontal: 10,
-    fontSize: 10,
-    fontWeight: 'normal',
+    fontSize: 12,
   },
   activeButtonText: {
     color: '#000',
   },
-  loginButton: {
+  registerButton: {
     position: 'absolute',
     top: 40,
     right: 20,
     paddingHorizontal: 30,
     backgroundColor: 'transparent',
   },
-  loginButtonText: {
+  registerButtonText: {
     color: '#000',
     fontSize: 14,
     fontWeight: '500',
