@@ -57,6 +57,28 @@ export default function TabLayout() {
             ),
           }}
         />
+
+<Tabs.Screen
+          name="addEvent"
+          options={{
+            title: 'Add Event',
+            tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />, // Change 'code' to 'calendar'
+            headerRight: () => (
+              <Link href="/modal" asChild>
+                <Pressable>
+                  {({ pressed }) => (
+                    <FontAwesome
+                      name="info-circle"
+                      size={25}
+                      color={Colors[colorScheme ?? 'light'].text}
+                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+              </Link>
+            ),
+          }}
+        />
       </Tabs>
     </DataProvider>
   );

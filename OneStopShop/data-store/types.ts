@@ -19,4 +19,5 @@ export interface CalendarEntry {
   description: string;
   calendarEntryCategory: CalendarEntryCategory;
   day: string;
+  pushNotified: boolean;
 }
