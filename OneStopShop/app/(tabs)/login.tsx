@@ -82,30 +82,27 @@ const styles = StyleSheet.create({
   },
   title: {
     position: 'absolute',
-    top: 40,
+    top: 35,
     left: 20,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
   },
   input: {
-    width: '100%',
+    width: '85%',
     padding: 15,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
     marginBottom: 15,
-    backgroundColor: '#f9f9f9',
-    paddingHorizontal: 20, // Added horizontal padding
+    backgroundColor: '#e0e0e0',
   },
   roleButtonsContainer: {
-    width: '100%',
+    width: '85%',
     backgroundColor: '#e0e0e0',
     borderRadius: 5,
     padding: 5,
-    marginVertical: 15, // Adjusted to add vertical margin instead of roleButtons
-    marginTop: 100, // Added marginTop to create space above
-    paddingHorizontal: 20, // Added horizontal padding
+    marginVertical: 15,
+    marginTop: 100,
   },
   roleButtons: {
     flexDirection: 'row',
@@ -122,7 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   roleButtonText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'normal',
   },
   activeButtonText: {
@@ -132,14 +129,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 40,
     right: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     backgroundColor: 'transparent',
-    borderRadius: 5,
   },
   loginButtonText: {
     color: '#000',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
