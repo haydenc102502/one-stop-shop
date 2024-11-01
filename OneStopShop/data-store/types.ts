@@ -1,5 +1,6 @@
 // src/store/types.ts
 
+import { CalendarEntryCategory } from './calendarEntryCategory';
 import { UserRole } from './userRole';
 
 
@@ -16,4 +17,5 @@ export interface CalendarEntry {
   userId: string;
   time: string;
   description: string;
+  calendarEntryCategory: CalendarEntryCategory;
 }
