@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import { DataProvider } from '@/data-store/dataContext'; // Import DataProvider
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -14,7 +15,6 @@ export {
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
 
@@ -42,7 +42,12 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  // Wrap the navigation stack with DataProvider here
+  return (
+    <DataProvider>
+      <RootLayoutNav />
+    </DataProvider>
+  );
 }
 
 function RootLayoutNav() {
@@ -52,7 +57,12 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen 
+          name="userProfile" //  userProfile.tsx
+          options={{
+            title: 'User Profile', // Displayed as the screen title
+          }} 
+        />
       </Stack>
     </ThemeProvider>
   );
