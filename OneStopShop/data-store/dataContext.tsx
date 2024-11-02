@@ -9,7 +9,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { User, CalendarEntry } from './types';
 import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
-import { sendPushNotification, registerForPushNotificationsAsync } from '@/services/notificationService';
+import { showLocalNotification } from '@/services/notificationService';
 
 
 
@@ -75,13 +75,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Trigger push notification (this is a placeholder, replace with actual push notification logic)
     // console.log(`Push Notification for ${currentUserId}: ${message}`)
-    await sendPushNotification(message);
+    // await sendPushNotification(message);
+    showLocalNotification('Calendar Notification', message);
 
   };
 
   
   useEffect(() => {
-    registerForPushNotificationsAsync();
+    // registerForPushNotificationsAsync();
     sendPushNotifications();
   }, [calendarData]);
 
