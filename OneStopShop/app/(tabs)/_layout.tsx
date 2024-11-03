@@ -16,6 +16,26 @@ function TabBarIcon(props: {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
+// HeaderRightProfileButton component
+function HeaderRightProfileButton() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <Link href="/userProfile" asChild>
+      <Pressable>
+        {({ pressed }) => (
+          <FontAwesome
+            name="user" 
+            size={25}
+            color={Colors[colorScheme ?? 'light'].text}
+            style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+          />
+        )}
+      </Pressable>
+    </Link>
+  );
+}
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
@@ -32,7 +52,8 @@ export default function TabLayout() {
           name="index"
           options={{
             title: 'Agenda',
-            tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />, // Change 'code' to 'list'
+            tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+            headerRight: () => <HeaderRightProfileButton />,
           }}
         />
         {/* Calendar Tab */}
@@ -40,43 +61,17 @@ export default function TabLayout() {
           name="calendar"
           options={{
             title: 'Calendar',
-            tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />, // Change 'code' to 'calendar'
-            headerRight: () => (
-              <Link href="/modal" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <FontAwesome
-                      name="info-circle"
-                      size={25}
-                      color={Colors[colorScheme ?? 'light'].text}
-                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                    />
-                  )}
-                </Pressable>
-              </Link>
-            ),
+            tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
+            headerRight: () => <HeaderRightProfileButton />,
           }}
         />
-
-<Tabs.Screen
+        {/* Add Event Tab */}
+        <Tabs.Screen
           name="addEvent"
           options={{
             title: 'Add Event',
-            tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />, // Change 'code' to 'calendar'
-            headerRight: () => (
-              <Link href="/modal" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <FontAwesome
-                      name="info-circle"
-                      size={25}
-                      color={Colors[colorScheme ?? 'light'].text}
-                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                    />
-                  )}
-                </Pressable>
-              </Link>
-            ),
+            tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
+            headerRight: () => <HeaderRightProfileButton />,
           }}
         />
       </Tabs>
