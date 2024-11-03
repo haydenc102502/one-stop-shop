@@ -8,12 +8,32 @@ import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { DataProvider } from '@/data-store/dataContext';
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+// TabBarIcon component
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+}
+
+// HeaderRightProfileButton component
+function HeaderRightProfileButton() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <Link href="/userProfile" asChild>
+      <Pressable>
+        {({ pressed }) => (
+          <FontAwesome
+            name="user" 
+            size={25}
+            color={Colors[colorScheme ?? 'light'].text}
+            style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+          />
+        )}
+      </Pressable>
+    </Link>
+  );
 }
 
 export default function TabLayout() {
@@ -24,37 +44,34 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          // Disable the static render of the header on web
-          // to prevent a hydration error in React Navigation v6.
           headerShown: useClientOnlyValue(false, true),
         }}
       >
+        {/* Agenda Tab */}
         <Tabs.Screen
           name="index"
           options={{
-            title: 'Calendar',
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-            headerRight: () => (
-              <Link href="/modal" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <FontAwesome
-                      name="info-circle"
-                      size={25}
-                      color={Colors[colorScheme ?? 'light'].text}
-                      style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                    />
-                  )}
-                </Pressable>
-              </Link>
-            ),
+            title: 'Agenda',
+            tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+            headerRight: () => <HeaderRightProfileButton />,
           }}
         />
+        {/* Calendar Tab */}
         <Tabs.Screen
-          name="two"
+          name="calendar"
           options={{
-            title: 'Tab Two',
-            tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            title: 'Calendar',
+            tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
+            headerRight: () => <HeaderRightProfileButton />,
+          }}
+        />
+        {/* Add Event Tab */}
+        <Tabs.Screen
+          name="addEvent"
+          options={{
+            title: 'Add Event',
+            tabBarIcon: ({ color }) => <TabBarIcon name="plus" color={color} />,
+            headerRight: () => <HeaderRightProfileButton />,
           }}
         />
       </Tabs>

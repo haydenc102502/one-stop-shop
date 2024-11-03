@@ -3,7 +3,6 @@
 import { CalendarEntryCategory } from './calendarEntryCategory';
 import { UserRole } from './userRole';
 
-
 export interface User {
   userId: string;
   name: string;
@@ -18,4 +17,6 @@ export interface CalendarEntry {
   time: string;
   description: string;
   calendarEntryCategory: CalendarEntryCategory;
+  day: string;
+  pushNotified: boolean;
 }
