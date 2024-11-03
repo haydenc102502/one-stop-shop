@@ -1,4 +1,5 @@
 // OneStopShop/services/notificationService.ts
+// NOTE: May need to run `expo install expo-notifications` if an error is thrown when importing Notifications
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Platform, Alert } from 'react-native';
@@ -18,6 +19,16 @@ export const requestUserPermission = async () => {
     return;
   }
 
+  /** The warning  "WARN  Calling getExpoPushTokenAsync without specifying a projectId is deprecated and will no longer be supported in SDK 49+ "
+  * below is expected and stems from the following lines in this const.  They can be ignored because it stems from the fact that the `projectId` 
+  * is not defined in the `app.json` file.
+  * To resolve this warning, add the following to your `app.json` file however adding this is not necessary for the push notification to work and 
+  * adding this will create the need for an EAS account and Im not too sure if thats free or not.:
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id"
+    } },
+  */
   const token = (await Notifications.getExpoPushTokenAsync({
     projectId: Constants.expoConfig?.extra?.eas?.projectId,
   })).data;
