@@ -19,7 +19,7 @@ export const requestUserPermission = async () => {
   }
 
   const token = (await Notifications.getExpoPushTokenAsync({
-    projectId: Constants.manifest?.extra?.eas?.projectId,
+    projectId: Constants.expoConfig?.extra?.eas?.projectId,
   })).data;
   console.log(token);
   return token;
@@ -30,7 +30,7 @@ export const setupNotificationChannel = async () => {
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('default', {
       name: 'default',
-      importance: Notifications.AndroidImportance.DEFAULT,
+      importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: '#FF231F7C',
     });
@@ -47,13 +47,13 @@ Notifications.setNotificationHandler({
 });
 
 // Send a push notification with the given message
-export const sendPushNotification = async (message: string) => {
+export const sendPushNotification = async (title: string, body: string) => {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Calendar Notification",
-      body: message,
+      title: title,
+      body: body,
       sound: true,
     },
-    trigger: { seconds: 0 },
+    trigger: { seconds: 1 },
   });
 };

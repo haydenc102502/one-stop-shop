@@ -69,15 +69,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userEntries = calendarData.filter((entry) => entry.userId === currentUserId && !entry.pushNotified);
     if (userEntries.length === 0) return;
 
-    const message = userEntries.map((entry) => `${entry.time}: ${entry.description}`).join('\n');
+    const message = userEntries.map((entry) => `${entry.day} ${entry.time}: ${entry.description}`).join('\n');
     userEntries.forEach((entry) => (entry.pushNotified = true));
     setCalendarData([...calendarData]);
 
     // Trigger push notification (this is a placeholder, replace with actual push notification logic)
     console.log(`Push Notification for ${currentUserId}: ${message}`)
-    await sendPushNotification(message);
+    await sendPushNotification('Calendar Notification', message);
   };
-
   
   useEffect(() => {
     requestUserPermission();
