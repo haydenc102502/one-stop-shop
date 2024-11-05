@@ -135,53 +135,56 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 - Roman Kozulia
 - Ivan Rojas
 
-
 ## Development Setup
 
-The application is built using Expo framework and TypeScript 
+To set up the development environment for the One Stop Shop application, follow the instructions below based on your operating system.
 
+### Prerequisites
 
-Expo documentation can be found here: 
+- **Node.js**: Ensure Node.js is installed. Download it from the [official website](https://nodejs.org/).
 
-https://docs.expo.dev/get-started/start-developing/
+### Apple Machine Setup
 
- **Apple machine setup**
+1. **Install Homebrew**:
 
-Install homebrew: 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+    ```bash
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
 
-Run: 
-```bash
-brew install --cask expo-xde
-```
+2. **Install Expo CLI**:
 
-**Windows machine setup**
+    ```bash
+    brew install --cask expo-xde
+    ```
 
-Expo requires Node.js to be installed. You can download and install Node.js from its official website.
+### Windows Machine Setup
 
-```bash
-npm install -g expo-cli
-```
+1. **Install Expo CLI**:
 
-**Running the application**
+    ```bash
+    npm install -g expo-cli
+    ```
 
-Navigate to the OneStopShop directory
+### Running the Application
 
-**Run the app**
+1. **Navigate to the project directory**:
 
-```bash
-npx expo start
-```
+    ```bash
+    cd /path/to/OneStopShop
+    ```
 
-Choose "i" to run an iOS simulator(only available on Mac OS), or "a" to run Android.
-Android simulation requires Android studio to be installed and configured for simulation.
+2. **Start the application**:
 
+    ```bash
+    npx expo start
+    ```
 
+3. **Run the app**:
+    - Press `i` to run on an iOS simulator (only available on macOS).
+    - Press `a` to run on an Android emulator (requires Android Studio).
+
+For more detailed instructions, refer to the [Expo documentation](https://docs.expo.dev/get-started/start-developing/).
 
 ## Libraries used
 
-React Native Calendars  https://github.com/wix/react-native-calendars
-
-
+- **React Native Calendars**: <https://github.com/wix/react-native-calendars>
