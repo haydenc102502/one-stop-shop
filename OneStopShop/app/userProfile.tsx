@@ -2,15 +2,19 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { useDataContext } from '@/data-store/dataContext';
+import { useNavigation } from '@react-navigation/native';
 
 export default function UserProfileScreen() {
-  const { users, currentUserId } = useDataContext();
+  const { users, currentUserId, setCurrentUserId } = useDataContext();
   const currentUser = users.find(user => user.userId === currentUserId);
+
+  // Initialize navigation
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      
+
       {/* Display user information if available */}
       {currentUser ? (
         <View style={styles.userInfoContainer}>
@@ -22,12 +26,20 @@ export default function UserProfileScreen() {
       ) : (
         <Text>No user information available</Text>
       )}
-      
+
       {/* Logout Button */}
-      <Pressable style={styles.logoutButton} onPress={() => { /* Add logout logic here */ }}>
-        <Text style={styles.logoutButtonText}>Program this button to return to the login screen to change a user for demo.</Text>
+      <Pressable
+        style={styles.logoutButton}
+        onPress={() => {
+          // TO DO: When we implement login, we will set current user ID to null
+          // setCurrentUserId(null);
+          // Navigate back to the login screen
+          navigation.navigate('login');
+        }}
+      >
+        <Text style={styles.logoutButtonText}>Logout</Text>
       </Pressable>
-      
+
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>

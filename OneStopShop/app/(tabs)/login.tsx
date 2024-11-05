@@ -1,6 +1,7 @@
 import { UserRole } from '@/data-store/userRole';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
   const [firstName, setFirstName] = useState('');
@@ -8,6 +9,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
+  const navigation = useNavigation();
 
   const handleLogin = () => {
     // TODO: Implement login logic
@@ -69,6 +71,9 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity onPress={() => navigation.navigate('register')}>
+        <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -136,5 +141,10 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 14,
     fontWeight: '500',
+  },
+  registerLinkText: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+    marginTop: 20,
   },
 });

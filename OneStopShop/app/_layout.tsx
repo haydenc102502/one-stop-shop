@@ -56,12 +56,14 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="register" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen 
+        <Stack.Screen
           name="userProfile" //  userProfile.tsx
           options={{
             title: 'User Profile', // Displayed as the screen title
-          }} 
+          }}
         />
       </Stack>
     </ThemeProvider>
