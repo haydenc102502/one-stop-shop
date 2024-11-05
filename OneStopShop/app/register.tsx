@@ -19,6 +19,7 @@ export default function RegisterScreen() {
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Role:', role);
+    navigation.navigate('login');
   };
 
   return (
