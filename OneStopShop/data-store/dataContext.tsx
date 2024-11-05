@@ -5,10 +5,11 @@
  * 
  * 
  */
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { User, CalendarEntry } from './types';
 import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
+import {sendPushNotification, setupNotificationChannel, requestUserPermission } from '@/services/notificationService';
 
 
 
@@ -24,7 +25,10 @@ const initialCalendarData: CalendarEntry[] = [
   { userId: 'as1899', day: '2024-10-28', time: '10:00 AM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
   { userId: 'as1899', day: '2024-10-29', time: '10:00 AM', description: 'SWEN 444 class canceled', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
   { userId: 'as1899', day: '2024-10-29', time: '2:00 PM', description: 'New assignment posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
+  { userId: 'as1899', day: '2024-11-2', time: '2:09 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+  { userId: 'as1899', day: '2024-11-2', time: '2:25 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
   { userId: 'as1899', day: '2024-10-29', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+
 ];
 
 
@@ -36,12 +40,14 @@ interface DataContextType {
   calendarData: CalendarEntry[];  // Change from Record<string, CalendarEntry[]>
   addCalendarEntry: (entry: CalendarEntry) => void;
   getEntriesByUserId: (userId: string) => CalendarEntry[];
+  sendPushNotifications: () => void;
 }
 
 
 // Context for data store and functions
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
+// Provider to wrap the app and provide data to all components
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [users] = useState<User[]>(initialUserData);
   const [calendarData, setCalendarData] = useState<CalendarEntry[]>(initialCalendarData);
@@ -57,9 +63,29 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return calendarData.filter(entry => entry.userId === userId);
   };
   
+  const sendPushNotifications = async () => {
+    if (!currentUserId) return;
+
+    const userEntries = calendarData.filter((entry) => entry.userId === currentUserId && !entry.pushNotified);
+    if (userEntries.length === 0) return;
+
+    const message = userEntries.map((entry) => `${entry.day} ${entry.time}: ${entry.description}`).join('\n');
+    userEntries.forEach((entry) => (entry.pushNotified = true));
+    setCalendarData([...calendarData]);
+
+    // Trigger push notification (this is a placeholder, replace with actual push notification logic)
+    console.log(`Push Notification for ${currentUserId}: ${message}`)
+    await sendPushNotification('Calendar Notification', message);
+  };
+  
+  useEffect(() => {
+    requestUserPermission();
+    setupNotificationChannel();
+    sendPushNotifications();
+  }, [calendarData]);
 
   return (
-    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId }}>
+    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications }}>
       {children}
     </DataContext.Provider>
   );
