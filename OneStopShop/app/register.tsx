@@ -1,6 +1,8 @@
 import { UserRole } from '@/data-store/userRole';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '@/data-store/types';
 
 export default function RegisterScreen() {
   const [firstName, setFirstName] = useState('');
@@ -8,6 +10,7 @@ export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleRegister = () => {
     // TODO: Implement registration logic
@@ -81,6 +84,9 @@ export default function RegisterScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity onPress={() => navigation.navigate('login')}>
+        <Text style={styles.loginLinkText}>Already have an account? Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -150,5 +156,10 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 14,
     fontWeight: '500',
+  },
+  loginLinkText: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+    marginTop: 20,
   },
 });
