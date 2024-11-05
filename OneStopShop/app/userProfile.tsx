@@ -2,14 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { useDataContext } from '@/data-store/dataContext';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '@/data-store/types';
 
 export default function UserProfileScreen() {
   const { users, currentUserId, setCurrentUserId } = useDataContext();
   const currentUser = users.find(user => user.userId === currentUserId);
-
-  // Initialize navigation
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>

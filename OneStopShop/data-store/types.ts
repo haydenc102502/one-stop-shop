@@ -20,3 +20,8 @@ export interface CalendarEntry {
   day: string;
   pushNotified: boolean;
 }
+
+export type RootStackParamList = {
+  login: undefined;
+  register: undefined;
+};

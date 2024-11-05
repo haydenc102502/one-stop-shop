@@ -1,7 +1,8 @@
 import { UserRole } from '@/data-store/userRole';
+import { RootStackParamList } from '@/data-store/types';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
   const [firstName, setFirstName] = useState('');
@@ -9,7 +10,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleLogin = () => {
     // TODO: Implement login logic
