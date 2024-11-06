@@ -4,6 +4,7 @@ import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/data-store/types';
 import { DataProvider, useDataContext } from '@/data-store/dataContext';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function RegisterScreen() {
   const [firstName, setFirstName] = useState('');
@@ -29,71 +30,75 @@ export default function RegisterScreen() {
     Alert.alert('Registration successful! Please log in to access your account.');
   };
 
-  return (
-    <DataProvider>
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-          <Text style={styles.registerButtonText}>Register</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>Create Your Account</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="First Name"
-            value={firstName}
-            onChangeText={setFirstName}
-            autoComplete="given-name"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Last Name"
-            value={lastName}
-            onChangeText={setLastName}
-            autoComplete="family-name"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
-            autoComplete="new-password"
-          />
-        </View>
-        <View style={styles.roleButtonsContainer}>
-          <View style={styles.roleButtons}>
-            <TouchableOpacity
-              style={[styles.roleButton, role === UserRole.STUDENT && styles.activeButton]}
-              onPress={() => setRole(UserRole.STUDENT)}
-            >
-              <Text style={[styles.roleButtonText, role === UserRole.STUDENT && styles.activeButtonText]}>
-                Student
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.roleButton, role === UserRole.COURSE_ASSISTANT && styles.activeButton]}
-              onPress={() => setRole(UserRole.COURSE_ASSISTANT)}
-            >
-              <Text style={[styles.roleButtonText, role === UserRole.COURSE_ASSISTANT && styles.activeButtonText]}>
-                Course Assistant
-              </Text>
-            </TouchableOpacity>
+  return (<SafeAreaProvider>
+    <SafeAreaView>
+      <DataProvider>
+
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+            <Text style={styles.registerButtonText}>Register</Text>
+          </TouchableOpacity>
+          <Text onPress={() => navigation.navigate('calendar')} style={styles.title}>Create Your Account</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="First Name"
+              value={firstName}
+              onChangeText={setFirstName}
+              autoComplete="given-name"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Last Name"
+              value={lastName}
+              onChangeText={setLastName}
+              autoComplete="family-name"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={true}
+              autoComplete="new-password"
+            />
           </View>
+          <View style={styles.roleButtonsContainer}>
+            <View style={styles.roleButtons}>
+              <TouchableOpacity
+                style={[styles.roleButton, role === UserRole.STUDENT && styles.activeButton]}
+                onPress={() => setRole(UserRole.STUDENT)}
+              >
+                <Text style={[styles.roleButtonText, role === UserRole.STUDENT && styles.activeButtonText]}>
+                  Student
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.roleButton, role === UserRole.COURSE_ASSISTANT && styles.activeButton]}
+                onPress={() => setRole(UserRole.COURSE_ASSISTANT)}
+              >
+                <Text style={[styles.roleButtonText, role === UserRole.COURSE_ASSISTANT && styles.activeButtonText]}>
+                  Course Assistant
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('login')}>
+            <Text style={styles.loginLinkText}>Already have an account? Login</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('login')}>
-          <Text style={styles.loginLinkText}>Already have an account? Login</Text>
-        </TouchableOpacity>
-      </View>
-    </DataProvider>
+      </DataProvider>
+    </SafeAreaView>
+  </SafeAreaProvider>
   );
 }
 

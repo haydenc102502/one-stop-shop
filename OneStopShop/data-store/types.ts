@@ -24,4 +24,5 @@ export interface CalendarEntry {
 export type RootStackParamList = {
   login: undefined;
   register: undefined;
+  calendar: undefined;
 };
