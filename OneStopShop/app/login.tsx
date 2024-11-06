@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { DataProvider, useDataContext } from '@/data-store/dataContext';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginScreen() {
   const [firstName, setFirstName] = useState('');
@@ -21,64 +20,60 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
-        <DataProvider>
-          <View style={styles.container}>
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text style={styles.loginButtonText}>Login</Text>
+    <DataProvider>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
+        <Text onPress={() => navigation.navigate('calendar')} style={styles.title}>One Stop Shop</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+        />
+        <View style={styles.roleButtonsContainer}>
+          <View style={styles.roleButtons}>
+            <TouchableOpacity
+              style={[styles.roleButton, role === UserRole.STUDENT && styles.activeButton]}
+              onPress={() => setRole(UserRole.STUDENT)}
+            >
+              <Text style={[styles.roleButtonText, role === UserRole.STUDENT && styles.activeButtonText]}>
+                Student
+              </Text>
             </TouchableOpacity>
-            <Text onPress={() => navigation.navigate('calendar')} style={styles.title}>One Stop Shop</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={true}
-            />
-            <View style={styles.roleButtonsContainer}>
-              <View style={styles.roleButtons}>
-                <TouchableOpacity
-                  style={[styles.roleButton, role === UserRole.STUDENT && styles.activeButton]}
-                  onPress={() => setRole(UserRole.STUDENT)}
-                >
-                  <Text style={[styles.roleButtonText, role === UserRole.STUDENT && styles.activeButtonText]}>
-                    Student
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.roleButton, role === UserRole.FACULTY && styles.activeButton]}
-                  onPress={() => setRole(UserRole.FACULTY)}
-                >
-                  <Text style={[styles.roleButtonText, role === UserRole.FACULTY && styles.activeButtonText]}>
-                    Faculty
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.roleButton, role === UserRole.COURSE_ASSISTANT && styles.activeButton]}
-                  onPress={() => setRole(UserRole.COURSE_ASSISTANT)}
-                >
-                  <Text style={[styles.roleButtonText, role === UserRole.COURSE_ASSISTANT && styles.activeButtonText]}>
-                    Course Assistant
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate('register')}>
-              <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
+            <TouchableOpacity
+              style={[styles.roleButton, role === UserRole.FACULTY && styles.activeButton]}
+              onPress={() => setRole(UserRole.FACULTY)}
+            >
+              <Text style={[styles.roleButtonText, role === UserRole.FACULTY && styles.activeButtonText]}>
+                Faculty
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.roleButton, role === UserRole.COURSE_ASSISTANT && styles.activeButton]}
+              onPress={() => setRole(UserRole.COURSE_ASSISTANT)}
+            >
+              <Text style={[styles.roleButtonText, role === UserRole.COURSE_ASSISTANT && styles.activeButtonText]}>
+                Course Assistant
+              </Text>
             </TouchableOpacity>
           </View>
-        </DataProvider>
-      </SafeAreaView>
-    </SafeAreaProvider>
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('register')}>
+          <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
+        </TouchableOpacity>
+      </View>
+    </DataProvider>
   );
 }
 
