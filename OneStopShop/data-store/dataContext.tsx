@@ -33,9 +33,11 @@ interface DataContextType {
   users: User[];
   currentUserId: string | null;
   setCurrentUserId: (user: string) => void;
-  calendarData: CalendarEntry[];  // Change from Record<string, CalendarEntry[]>
+  calendarData: CalendarEntry[];
   addCalendarEntry: (entry: CalendarEntry) => void;
   getEntriesByUserId: (userId: string) => CalendarEntry[];
+  addUser: (user: User) => void;
+  getUsers: () => User[];
 }
 
 
@@ -43,9 +45,9 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [users] = useState<User[]>(initialUserData);
+  const [users, setUsers] = useState<User[]>(initialUserData);
   const [calendarData, setCalendarData] = useState<CalendarEntry[]>(initialCalendarData);
-  const [currentUserId, setCurrentUserId] = useState<string | null>('as1899');// Initialize with null or a default user
+  const [currentUserId, setCurrentUserId] = useState<string | null>('as1899');
 
   // Add a new entry to the calendar
   const addCalendarEntry = (entry: CalendarEntry) => {
@@ -57,9 +59,18 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return calendarData.filter(entry => entry.userId === userId);
   };
   
+  // Add a new user
+  const addUser = (user: User) => {
+    setUsers((prevUsers) => [...prevUsers, user]);
+  };
+
+  // Get the current list of users
+  const getUsers = (): User[] => {
+    return users;
+  };
 
   return (
-    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId }}>
+    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, addUser, getUsers }}>
       {children}
     </DataContext.Provider>
   );

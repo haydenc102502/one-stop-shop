@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/data-store/types';
+import { useDataContext } from '@/data-store/dataContext';
 
 export default function RegisterScreen() {
   const [firstName, setFirstName] = useState('');
@@ -11,15 +12,25 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { addUser, getUsers } = useDataContext();
 
   const handleRegister = () => {
-    // TODO: Implement registration logic
     console.log('First Name:', firstName);
     console.log('Last Name:', lastName);
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Role:', role);
+    const newUser = {
+      userId: email.split('@')[0], // Generate userId from email
+      name: firstName,
+      secondName: lastName,
+      phone: '',
+      email: email,
+      role: role || UserRole.STUDENT, // Default to STUDENT if role is null
+    };
+    addUser(newUser);
     navigation.navigate('login');
+    console.log('Users:', getUsers()); // Log the current users array
   };
 
   return (
@@ -159,6 +170,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   loginLinkText: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+    marginTop: 20,
+  },
+  testLinkText: {
     color: 'blue',
     textDecorationLine: 'underline',
     marginTop: 20,
