@@ -38,7 +38,6 @@ export default function RegisterScreen() {
         <Text style={styles.title}>Create Your Account</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            id="registerFirstName"
             style={styles.input}
             placeholder="First Name"
             value={firstName}
@@ -46,7 +45,6 @@ export default function RegisterScreen() {
             autoComplete="given-name"
           />
           <TextInput
-            id="registerLastName"
             style={styles.input}
             placeholder="Last Name"
             value={lastName}
@@ -54,7 +52,6 @@ export default function RegisterScreen() {
             autoComplete="family-name"
           />
           <TextInput
-            id="registerEmail"
             style={styles.input}
             placeholder="Email"
             value={email}
@@ -64,7 +61,6 @@ export default function RegisterScreen() {
             autoComplete="email"
           />
           <TextInput
-            id="registerPassword"
             style={styles.input}
             placeholder="Password"
             value={password}

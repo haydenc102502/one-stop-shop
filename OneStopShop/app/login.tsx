@@ -3,7 +3,7 @@ import { RootStackParamList } from '@/data-store/types';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { DataProvider } from '@/data-store/dataContext';
+import { DataProvider, useDataContext } from '@/data-store/dataContext';
 
 export default function LoginScreen() {
   const [firstName, setFirstName] = useState('');
@@ -12,14 +12,11 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { getUsers } = useDataContext();
 
   const handleLogin = () => {
     // TODO: Implement login logic
-    console.log('First Name:', firstName);
-    console.log('Last Name:', lastName);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Role:', role);
+    console.log('Users:', getUsers()); // Log the current users array
   };
 
   return (
@@ -30,7 +27,6 @@ export default function LoginScreen() {
         </TouchableOpacity>
         <Text style={styles.title}>One Stop Shop</Text>
         <TextInput
-          id="loginEmail"
           style={styles.input}
           placeholder="Email"
           value={email}
@@ -39,7 +35,6 @@ export default function LoginScreen() {
           autoCapitalize="none"
         />
         <TextInput
-          id="loginPassword"
           style={styles.input}
           placeholder="Password"
           value={password}
