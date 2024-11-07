@@ -10,8 +10,6 @@ import { User, CalendarEntry } from './types';
 import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
 
-
-
 // Initial User data
 const initialUserData: User[] = [
   { userId: 'as1899', name: 'Alice', secondName: 'Smith', phone: '555-1234', email: 'alice@example.com', role: UserRole.STUDENT },
