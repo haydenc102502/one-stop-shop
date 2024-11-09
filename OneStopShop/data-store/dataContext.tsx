@@ -9,7 +9,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { User, CalendarEntry } from './types';
 import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
-import {sendPushNotification, setupNotificationChannel, requestUserPermission } from '@/services/notificationService';
+import { sendPushNotification, setupNotificationChannel, requestUserPermission } from '@/services/notificationService';
 
 
 
@@ -22,12 +22,12 @@ const initialUserData: User[] = [
 // Initial Calendar data
 // Initial Calendar data as an array of CalendarEntry objects
 const initialCalendarData: CalendarEntry[] = [
-  { userId: 'as1899', day: '2024-10-28', time: '10:00 AM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
-  { userId: 'as1899', day: '2024-10-29', time: '10:00 AM', description: 'SWEN 444 class canceled', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
-  { userId: 'as1899', day: '2024-10-29', time: '2:00 PM', description: 'New assignment posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
-  { userId: 'as1899', day: '2024-11-2', time: '2:09 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-  { userId: 'as1899', day: '2024-11-2', time: '2:25 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-  { userId: 'as1899', day: '2024-10-29', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+  { id: '1', userId: 'as1899', day: '2024-10-28', time: '10:00 AM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '2', userId: 'as1899', day: '2024-10-29', time: '10:00 AM', description: 'SWEN 444 class canceled', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '3', userId: 'as1899', day: '2024-10-29', time: '2:00 PM', description: 'New assignment posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
+  { id: '4', userId: 'as1899', day: '2024-11-2', time: '2:09 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+  { id: '5', userId: 'as1899', day: '2024-11-2', time: '2:25 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+  { id: '6', userId: 'as1899', day: '2024-10-29', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
 
 ];
 
@@ -41,6 +41,9 @@ interface DataContextType {
   addCalendarEntry: (entry: CalendarEntry) => void;
   getEntriesByUserId: (userId: string) => CalendarEntry[];
   sendPushNotifications: () => void;
+  updateCalendarEntry: (id: string, updatedData: Partial<CalendarEntry>) => void;
+  removeCalendarEntry: (id: string) => void;
+  completeCalendarEntry: (id: string) => void;
 }
 
 
@@ -84,8 +87,25 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     sendPushNotifications();
   }, [calendarData]);
 
+  const updateCalendarEntry = (id: string, updatedData: Partial<CalendarEntry>) => {
+    setCalendarData((prevData) =>
+      prevData.map((entry) => (entry.id === id ? { ...entry, ...updatedData } : entry))
+    );
+  };
+
+  const removeCalendarEntry = (id: string) => {
+    setCalendarData((prevData) => prevData.filter((entry) => entry.id !== id));
+  };
+
+  const completeCalendarEntry = (id: string) => {
+    // Implement completion logic, e.g., mark as completed
+    setCalendarData((prevData) =>
+      prevData.map((entry) => (entry.id === id ? { ...entry, completed: true } : entry))
+    );
+  };
+
   return (
-    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications }}>
+    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry }}>
       {children}
     </DataContext.Provider>
   );

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Alert } from 'react-native';
 import { Text } from '@/components/Themed';
 import { useDataContext } from '@/data-store/dataContext';
 import AgendaItem from '@/components/AgendaItem';
 
 export default function TabTwoScreen() {
-  const { calendarData } = useDataContext(); // Access calendar data from the context
+  const { calendarData, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry } = useDataContext(); // Access calendar data from the context
   const [agendaData, setAgendaData] = useState<{ [date: string]: any[] }>({});
 
   useEffect(() => {
@@ -22,6 +22,21 @@ export default function TabTwoScreen() {
     setAgendaData(data);
   }, [calendarData]);
 
+  const handleComplete = (id: string) => {
+    completeCalendarEntry(id);
+  };
+
+  const handleUpdate = (id: string, updatedData: any) => {
+    updateCalendarEntry(id, updatedData);
+  };
+
+  const handleRemove = (id: string) => {
+    Alert.alert('Are you sure you want to delete this event?', 'This action cannot be undone.', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Delete', style: 'destructive', onPress: () => removeCalendarEntry(id) },
+    ]);
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -31,7 +46,13 @@ export default function TabTwoScreen() {
           <View style={styles.dateContainer}>
             <Text style={styles.dateText}>{date}</Text>
             {agendaData[date].map((event, index) => (
-              <AgendaItem key={index} item={event} /> // Render each agenda item
+              <AgendaItem
+                key={index}
+                item={event}
+                onComplete={() => handleComplete(event.id)}
+                onUpdate={(updatedData) => handleUpdate(event.id, updatedData)}
+                onRemove={() => handleRemove(event.id)}
+              />
             ))}
           </View>
         )}

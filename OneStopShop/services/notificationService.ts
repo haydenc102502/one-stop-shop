@@ -4,6 +4,15 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Platform, Alert } from 'react-native';
 
+// Suppress the warning about not specifying a projectId
+const originalWarn = console.warn;
+console.warn = (message, ...args) => {
+  if (typeof message === 'string' && message.includes('Calling getExpoPushTokenAsync without specifying a projectId is deprecated')) {
+    return;
+  }
+  originalWarn(message, ...args);
+};
+
 // Request permission for notifications
 export const requestUserPermission = async () => {
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -30,7 +39,7 @@ export const requestUserPermission = async () => {
     } },
   */
   const token = (await Notifications.getExpoPushTokenAsync({
-    projectId: Constants.expoConfig?.extra?.eas?.projectId,
+    // projectId: Constants.expoConfig?.extra?.eas?.projectId,
   })).data;
   console.log(token);
   return token;

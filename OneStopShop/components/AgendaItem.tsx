@@ -8,22 +8,22 @@ const isEmpty = (obj: Record<string, unknown> | undefined | null): boolean => {
 
 interface ItemProps {
   item: {
+    id: string;
     hour?: string;
     duration?: string;
     title?: string;
   };
+  onComplete: () => void;
+  onUpdate: (updatedData: any) => void;
+  onRemove: () => void;
 }
 
 const AgendaItem = (props: ItemProps) => {
-  const { item } = props;
-
-  const buttonPressed = useCallback(() => {
-    Alert.alert('Show me more');
-  }, []);
+  const { item, onComplete, onUpdate, onRemove } = props;
 
   const itemPressed = useCallback(() => {
     Alert.alert(item.title || 'No Title');
-  }, []);
+  }, [item.title]);
 
   if (isEmpty(item)) {
     return (
@@ -41,7 +41,9 @@ const AgendaItem = (props: ItemProps) => {
       </View>
       <Text style={styles.itemTitleText}>{item.title}</Text>
       <View style={styles.itemButtonContainer}>
-        <Button color={'grey'} title={'Info'} onPress={buttonPressed} />
+        <Button color={'grey'} title={'Complete'} onPress={onComplete} />
+        <Button color={'grey'} title={'Update'} onPress={() => onUpdate({ title: 'Updated Title' })} />
+        <Button color={'grey'} title={'Remove'} onPress={onRemove} />
       </View>
     </TouchableOpacity>
   );
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderBottomColor: 'lightgrey',
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   itemHourText: {
     color: 'black',
@@ -73,8 +75,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   itemButtonContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
   emptyItem: {
     paddingLeft: 20,
