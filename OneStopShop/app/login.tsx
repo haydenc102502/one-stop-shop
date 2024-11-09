@@ -3,7 +3,7 @@ import { RootStackParamList } from '@/data-store/types';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { DataProvider, useDataContext } from '@/data-store/dataContext';
+import { useDataContext } from '@/data-store/dataContext';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -25,7 +25,6 @@ export default function LoginScreen() {
   };
 
   return (
-    <DataProvider>
       <View style={styles.container}>
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Login</Text>
@@ -78,7 +77,6 @@ export default function LoginScreen() {
           <Text style={styles.registerLinkText}>Don't have an account? Register</Text>
         </TouchableOpacity>
       </View>
-    </DataProvider>
   );
 }
 
