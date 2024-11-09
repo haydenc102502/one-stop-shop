@@ -12,10 +12,14 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const { addUser, getUsers } = useDataContext();
+  const { addUser, getUsers, userExists } = useDataContext();
 
   const handleRegister = () => {
     console.log('Users:', getUsers()); // Log the current users array
+    if (userExists(email)) {
+      Alert.alert('Registration failed', 'User already exists');
+      return;
+    }
     const newUser = {
       userId: email.split('@')[0], // Generate userId from email
       name: name,
@@ -23,10 +27,15 @@ export default function RegisterScreen() {
       phone: '',
       email: email,
       role: role || UserRole.STUDENT, // Default to STUDENT if role is null
+      password: password,
     };
-    addUser(newUser);
-    navigation.navigate('login');
-    Alert.alert('Registration successful! Please log in to access your account.');
+    try {
+      addUser(newUser);
+      navigation.navigate('login');
+      Alert.alert('Registration successful! Please log in to access your account.');
+    } catch (error) {
+      Alert.alert('Registration failed', 'An unexpected error occurred');
+    }
   };
 
   return (

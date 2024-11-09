@@ -1,22 +1,27 @@
 import { UserRole } from '@/data-store/userRole';
 import { RootStackParamList } from '@/data-store/types';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { DataProvider, useDataContext } from '@/data-store/dataContext';
 
 export default function LoginScreen() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
+  
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const { getUsers } = useDataContext();
+  const { authenticateUser } = useDataContext();
 
   const handleLogin = () => {
-    // TODO: Implement login logic
-    console.log('Users:', getUsers()); // Log the current users array
+    const success = authenticateUser(email, password);
+    if (success) {
+      navigation.navigate('calendar');
+    } else {
+      Alert.alert('Login failed', 'Invalid email or password');
+      setEmail('');
+      setPassword('');
+    }
   };
 
   return (

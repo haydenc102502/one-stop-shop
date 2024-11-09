@@ -10,6 +10,7 @@ export interface User {
   phone: string;
   email: string;
   role: UserRole;
+  password: string;
 }
 
 export interface CalendarEntry {

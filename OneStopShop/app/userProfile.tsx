@@ -6,8 +6,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '@/data-store/types';
 
 export default function UserProfileScreen() {
-  const { users, currentUserId, setCurrentUserId } = useDataContext();
-  const currentUser = users.find(user => user.userId === currentUserId);
+  const { currentUser, setCurrentUser } = useDataContext();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
@@ -30,9 +29,7 @@ export default function UserProfileScreen() {
       <Pressable
         style={styles.logoutButton}
         onPress={() => {
-          // TO DO: When we implement login, we will set current user ID to null
-          // setCurrentUserId(null);
-          // Navigate back to the login screen
+          setCurrentUser(null);
           navigation.navigate('login');
         }}
       >

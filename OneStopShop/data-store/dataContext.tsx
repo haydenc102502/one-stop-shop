@@ -12,8 +12,8 @@ import { CalendarEntryCategory } from './calendarEntryCategory';
 
 // Initial User data
 const initialUserData: User[] = [
-  { userId: 'as1899', name: 'Alice', secondName: 'Smith', phone: '555-1234', email: 'alice@example.com', role: UserRole.STUDENT },
-  { userId: 'bj1234', name: 'Bob', secondName: 'Johnson', phone: '555-5678', email: 'bobjohnson@example.com', role: UserRole.FACULTY },
+  { userId: 'as1899', name: 'Alice', secondName: 'Smith', phone: '555-1234', email: 'alice@example.com', role: UserRole.STUDENT, password: 'password' },
+  { userId: 'bj1234', name: 'Bob', secondName: 'Johnson', phone: '555-5678', email: 'bobjohnson@example.com', role: UserRole.FACULTY, password: 'password' },
 ];
 
 // Initial Calendar data
@@ -29,13 +29,15 @@ const initialCalendarData: CalendarEntry[] = [
 // Define context types
 interface DataContextType {
   users: User[];
-  currentUserId: string | null;
-  setCurrentUserId: (user: string) => void;
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
   calendarData: CalendarEntry[];
   addCalendarEntry: (entry: CalendarEntry) => void;
   getEntriesByUserId: (userId: string) => CalendarEntry[];
   addUser: (user: User) => void;
   getUsers: () => User[];
+  authenticateUser: (email: string, password: string) => boolean;
+  userExists: (email: string) => boolean;
 }
 
 
@@ -45,7 +47,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [users, setUsers] = useState<User[]>(initialUserData);
   const [calendarData, setCalendarData] = useState<CalendarEntry[]>(initialCalendarData);
-  const [currentUserId, setCurrentUserId] = useState<string | null>('as1899');
+  const [currentUser, setCurrentUser] = useState<User | null>(initialUserData[0]);
 
   // Add a new entry to the calendar
   const addCalendarEntry = (entry: CalendarEntry) => {
@@ -56,10 +58,27 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const getEntriesByUserId = (userId: string): CalendarEntry[] => {
     return calendarData.filter(entry => entry.userId === userId);
   };
-  
+
   // Add a new user
   const addUser = (user: User) => {
-    setUsers((prevUsers) => [...prevUsers, user]);
+    setUsers((prevUsers) => {
+      // Check if the user already exists
+      const userExists = prevUsers.some(existingUser => existingUser.email === user.email);
+      if (userExists) {
+        throw new Error('User already exists');
+      }
+      return [...prevUsers, user];
+    });
+  };
+
+  // Authenticate a user by email and password
+  const authenticateUser = (email: string, password: string) => {
+    const user = users.find((user) => user.email === email && user.password === password);
+    if (user) {
+      setCurrentUser(user);
+      return true;
+    }
+    return false;
   };
 
   // Get the current list of users
@@ -67,8 +86,18 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return users;
   };
 
+  // Get user by userId
+  const getUserById = (userId: string): User | undefined => {
+    return users.find(user => user.userId === userId);
+  };
+
+  // Check if a user already exists by email
+  const userExists = (email: string): boolean => {
+    return users.some(user => user.email === email);
+  };
+
   return (
-    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, addUser, getUsers }}>
+    <DataContext.Provider value={{ users, currentUser, setCurrentUser, calendarData, addCalendarEntry, getEntriesByUserId, addUser, getUsers, authenticateUser, userExists }}>
       {children}
     </DataContext.Provider>
   );

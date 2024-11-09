@@ -15,7 +15,7 @@ const categoryColors = {
 export default function CalendarScreen() {
   const [selected, setSelected] = useState('');
   const [selectedDateDetails, setSelectedDateDetails] = useState<CalendarEntry[] | null>(null);
-  const { currentUserId, calendarData } = useDataContext();
+  const { currentUser, calendarData } = useDataContext();
 
   // Convert `calendarData` to `markedDates` with color-coded dots for each category
   const markedDates = {} as Record<string, any>;
@@ -39,7 +39,7 @@ export default function CalendarScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Current User ID: {currentUserId}</Text>
+      <Text style={styles.title}>Current User ID: {currentUser?.userId}</Text>
       <View style={[styles.separator, { backgroundColor: '#eee' }]} />
 
       {/* Calendar Component */}
