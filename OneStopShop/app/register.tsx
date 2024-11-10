@@ -30,15 +30,13 @@ export default function RegisterScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   // Destructure functions from the data context for user management
-  const { addUser, getUsers, userExists } = useDataContext();
+  const { addUser, userExists } = useDataContext();
 
   /**
    * Handles the registration process when the user taps the "Register" button.
    * Validates input, checks for existing users, adds new user, and navigates to login screen.
    */
   const handleRegister = () => {
-    console.log('Users:', getUsers());
-
     // Check if a user with the provided email already exists
     if (userExists(email)) {
       Alert.alert('Registration failed', 'User already exists');

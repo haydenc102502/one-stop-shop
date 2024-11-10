@@ -140,18 +140,23 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   /**
-   * Adds a new user to the users state if the email does not already exist.
-   *
-   * @param user - The User to add.
-   * @returns True if the user was added, false if the email already exists.
-   */
+ * Adds a new user to the users state if the email does not already exist.
+ *
+ * @param user - The User to add.
+ * @returns True if the user was added, false if the email already exists.
+ */
   const addUser = (user: User): boolean => {
     const userExists = users.some((existingUser) => existingUser.email === user.email);
     if (userExists) {
       return false; // Email already exists
     }
 
-    setUsers((prevUsers) => [...prevUsers, user]);
+    setUsers((prevUsers) => {
+      const updatedUsers = [...prevUsers, user];
+      console.log('Updated Users:', updatedUsers);
+      return updatedUsers;
+    });
+
     return true;
   };
 
