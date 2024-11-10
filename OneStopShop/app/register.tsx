@@ -1,49 +1,87 @@
-import { UserRole } from '@/data-store/userRole';
+// register.tsx
+
+/**
+ * This file defines the RegisterScreen component, which allows users to create a new account.
+ * It includes input fields for user details and handles user registration logic.
+ */
+
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { UserRole } from '@/data-store/userRole';
 import { RootStackParamList } from '@/data-store/types';
 import { useDataContext } from '@/data-store/dataContext';
 
+/**
+ * RegisterScreen Component
+ * Provides a user interface for new users to register an account.
+ *
+ * @returns A React component that renders the registration form.
+ */
 export default function RegisterScreen() {
+  // State variables to hold user input
   const [name, setName] = useState('');
   const [secondName, setSecondName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | null>(null);
+
+  // Navigation object to handle screen transitions
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  // Destructure functions from the data context for user management
   const { addUser, getUsers, userExists } = useDataContext();
 
+  /**
+   * Handles the registration process when the user taps the "Register" button.
+   * Validates input, checks for existing users, adds new user, and navigates to login screen.
+   */
   const handleRegister = () => {
-    console.log('Users:', getUsers()); // Log the current users array
+    console.log('Users:', getUsers());
+
+    // Check if a user with the provided email already exists
     if (userExists(email)) {
       Alert.alert('Registration failed', 'User already exists');
       return;
     }
+
+    // Create a new user object with the provided input
     const newUser = {
-      userId: email.split('@')[0], // Generate userId from email
+      userId: email.split('@')[0],
       name: name,
       secondName: secondName,
       phone: '',
       email: email,
-      role: role || UserRole.STUDENT, // Default to STUDENT if role is null
+      role: role || UserRole.STUDENT,
       password: password,
     };
-    try {
-      addUser(newUser);
+
+    // Attempt to add the new user to the data store
+    const userAdded = addUser(newUser);
+
+    // Provide feedback based on whether the user was successfully added
+    if (userAdded) {
       navigation.navigate('login');
-      Alert.alert('Registration successful! Please log in to access your account.');
-    } catch (error) {
-      Alert.alert('Registration failed', 'An unexpected error occurred');
+      Alert.alert('Registration successful!', 'Please log in to access your account.');
+    } else {
+      Alert.alert('Registration failed', 'User could not be added');
     }
   };
 
+  // Render the registration form UI
   return (
     <View style={styles.container}>
+      {/* Register Button */}
       <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
-      <Text onPress={() => navigation.navigate('calendar')} style={styles.title}>Create Your Account</Text>
+
+      {/* Screen Title */}
+      <Text onPress={() => navigation.navigate('calendar')} style={styles.title}>
+        Create Your Account
+      </Text>
+
+      {/* Input Fields */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -77,13 +115,20 @@ export default function RegisterScreen() {
           autoComplete="new-password"
         />
       </View>
+
+      {/* Role Selection Buttons */}
       <View style={styles.roleButtonsContainer}>
         <View style={styles.roleButtons}>
           <TouchableOpacity
             style={[styles.roleButton, role === UserRole.STUDENT && styles.activeButton]}
             onPress={() => setRole(UserRole.STUDENT)}
           >
-            <Text style={[styles.roleButtonText, role === UserRole.STUDENT && styles.activeButtonText]}>
+            <Text
+              style={[
+                styles.roleButtonText,
+                role === UserRole.STUDENT && styles.activeButtonText,
+              ]}
+            >
               Student
             </Text>
           </TouchableOpacity>
@@ -91,12 +136,19 @@ export default function RegisterScreen() {
             style={[styles.roleButton, role === UserRole.COURSE_ASSISTANT && styles.activeButton]}
             onPress={() => setRole(UserRole.COURSE_ASSISTANT)}
           >
-            <Text style={[styles.roleButtonText, role === UserRole.COURSE_ASSISTANT && styles.activeButtonText]}>
+            <Text
+              style={[
+                styles.roleButtonText,
+                role === UserRole.COURSE_ASSISTANT && styles.activeButtonText,
+              ]}
+            >
               Course Assistant
             </Text>
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Navigation Link to Login Screen */}
       <TouchableOpacity onPress={() => navigation.navigate('login')}>
         <Text style={styles.loginLinkText}>Already have an account? Login</Text>
       </TouchableOpacity>
@@ -104,12 +156,16 @@ export default function RegisterScreen() {
   );
 }
 
+/**
+ * Stylesheet for the RegisterScreen component.
+ * Defines styles for layout, text, inputs, buttons, and other UI elements.
+ */
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    flex: 1, // Allows the container to fill the available space
+    alignItems: 'center', // Centers content horizontally
+    justifyContent: 'center', // Centers content vertically
+    padding: 20, // Adds padding around the content
   },
   title: {
     position: 'absolute',
@@ -119,7 +175,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   inputContainer: {
-    marginTop: 70,
+    marginTop: 70, // Positions the input fields below the title
     width: '100%',
     alignItems: 'center',
   },
@@ -140,23 +196,23 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   roleButtons: {
-    flexDirection: 'row',
+    flexDirection: 'row', // Arranges buttons horizontally
   },
   roleButton: {
-    flex: 1,
+    flex: 1, // Each button takes up equal space
     paddingVertical: 10,
     backgroundColor: '#e0e0e0',
     borderRadius: 5,
     alignItems: 'center',
   },
   activeButton: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fff', // Highlights the selected role button
   },
   roleButtonText: {
     fontSize: 12,
   },
   activeButtonText: {
-    color: '#000',
+    color: '#000', // Changes text color for the active role
   },
   registerButton: {
     position: 'absolute',
