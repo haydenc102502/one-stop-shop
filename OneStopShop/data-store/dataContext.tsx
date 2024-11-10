@@ -54,7 +54,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [users] = useState<User[]>(initialUserData);
   const [calendarData, setCalendarData] = useState<CalendarEntry[]>(initialCalendarData);
-  const [currentUserId, setCurrentUserId] = useState<string | null>('as1899');// Initialize with null or a default user
+  const [currentUserId, setCurrentUserId] = useState<string | null>('as1899'); // Initialize with null or a default user
 
   // Add a new entry to the calendar
   const addCalendarEntry = (entry: CalendarEntry) => {
@@ -65,7 +65,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const getEntriesByUserId = (userId: string): CalendarEntry[] => {
     return calendarData.filter(entry => entry.userId === userId);
   };
-  
+
   const sendPushNotifications = async () => {
     if (!currentUserId) return;
 
@@ -77,10 +77,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData([...calendarData]);
 
     // Trigger push notification (this is a placeholder, replace with actual push notification logic)
-    console.log(`Push Notification for ${currentUserId}: ${message}`)
+    console.log(`Push Notification for ${currentUserId}: ${message}`);
     await sendPushNotification('Calendar Notification', message);
   };
-  
+
   useEffect(() => {
     requestUserPermission();
     setupNotificationChannel();
@@ -98,22 +98,22 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const completeCalendarEntry = (id: string) => {
-    // Implement completion logic, e.g., mark as completed
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, completed: true } : entry))
     );
   };
 
   return (
-    <DataContext.Provider value={{ users, currentUserId: currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry }}>
+    <DataContext.Provider value={{ users, currentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry }}>
       {children}
     </DataContext.Provider>
   );
 };
 
-// Hook to use context data
 export const useDataContext = () => {
   const context = useContext(DataContext);
-  if (!context) throw new Error('useDataContext must be used within a DataProvider');
+  if (!context) {
+    throw new Error('useDataContext must be used within a DataProvider');
+  }
   return context;
 };

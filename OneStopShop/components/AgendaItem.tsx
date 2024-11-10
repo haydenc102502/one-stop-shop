@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { StyleSheet, Alert, View, Text, TouchableOpacity, Button } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { StyleSheet, Alert, View, Text, TouchableOpacity, Button, Modal, TextInput } from 'react-native';
 
 // Explicitly type the isEmpty function to accept any object or undefined
 const isEmpty = (obj: Record<string, unknown> | undefined | null): boolean => {
@@ -12,6 +12,7 @@ interface ItemProps {
     hour?: string;
     duration?: string;
     title?: string;
+    completed?: boolean;
   };
   onComplete: () => void;
   onUpdate: (updatedData: any) => void;
@@ -20,10 +21,17 @@ interface ItemProps {
 
 const AgendaItem = (props: ItemProps) => {
   const { item, onComplete, onUpdate, onRemove } = props;
+  const [modalVisible, setModalVisible] = useState(false);
+  const [updatedTitle, setUpdatedTitle] = useState(item.title);
 
   const itemPressed = useCallback(() => {
     Alert.alert(item.title || 'No Title');
   }, [item.title]);
+
+  const handleUpdate = () => {
+    onUpdate({ title: updatedTitle });
+    setModalVisible(false);
+  };
 
   if (isEmpty(item)) {
     return (
@@ -34,7 +42,7 @@ const AgendaItem = (props: ItemProps) => {
   }
 
   return (
-    <TouchableOpacity onPress={itemPressed} style={styles.item}>
+    <TouchableOpacity onPress={itemPressed} style={[styles.item, item.completed && styles.completedItem]}>
       <View>
         <Text style={styles.itemHourText}>{item.hour}</Text>
         <Text style={styles.itemDurationText}>{item.duration}</Text>
@@ -42,9 +50,30 @@ const AgendaItem = (props: ItemProps) => {
       <Text style={styles.itemTitleText}>{item.title}</Text>
       <View style={styles.itemButtonContainer}>
         <Button color={'grey'} title={'Complete'} onPress={onComplete} />
-        <Button color={'grey'} title={'Update'} onPress={() => onUpdate({ title: 'Updated Title' })} />
+        <Button color={'grey'} title={'Update'} onPress={() => setModalVisible(true)} />
         <Button color={'grey'} title={'Remove'} onPress={onRemove} />
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Update Task</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Title"
+              value={updatedTitle}
+              onChangeText={setUpdatedTitle}
+            />
+            <Button title="Update" onPress={handleUpdate} />
+            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </TouchableOpacity>
   );
 };
@@ -58,6 +87,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'lightgrey',
     flexDirection: 'column',
+  },
+  completedItem: {
+    backgroundColor: '#d3ffd3', // Light green background for completed items
   },
   itemHourText: {
     color: 'black',
@@ -89,5 +121,32 @@ const styles = StyleSheet.create({
   emptyItemText: {
     color: 'lightgrey',
     fontSize: 14,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+    width: '100%',
   },
 });

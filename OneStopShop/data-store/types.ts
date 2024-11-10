@@ -13,6 +13,7 @@ export interface User {
 }
 
 export interface CalendarEntry {
+  id: string;
   userId: string;
   time: string;
   description: string;

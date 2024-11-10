@@ -5,18 +5,19 @@ import { useDataContext } from '@/data-store/dataContext';
 import AgendaItem from '@/components/AgendaItem';
 
 export default function TabTwoScreen() {
-  const { calendarData, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry } = useDataContext(); // Access calendar data from the context
+  const { calendarData, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry } = useDataContext();
   const [agendaData, setAgendaData] = useState<{ [date: string]: any[] }>({});
 
   useEffect(() => {
-    // Format calendarData for the agenda
     const data: { [date: string]: any[] } = {};
     calendarData.forEach((entry) => {
       if (!data[entry.day]) data[entry.day] = [];
       data[entry.day].push({
+        id: entry.id,
         title: entry.description,
         hour: entry.time,
-        duration: '1h', // Customize as needed
+        duration: '1h',
+        completed: entry.completed,
       });
     });
     setAgendaData(data);
@@ -35,7 +36,7 @@ export default function TabTwoScreen() {
       { text: 'Cancel', style: 'cancel' },
       { text: 'Delete', style: 'destructive', onPress: () => removeCalendarEntry(id) },
     ]);
-  }
+  };
 
   return (
     <View style={styles.container}>
