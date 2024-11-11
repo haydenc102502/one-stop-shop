@@ -5,7 +5,7 @@ import { useDataContext } from '@/data-store/dataContext';
 import AgendaItem from '@/components/AgendaItem';
 
 export default function TabTwoScreen() {
-  const { calendarData, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry } = useDataContext();
+  const { calendarData, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry, uncompleteCalendarEntry } = useDataContext();
   const [agendaData, setAgendaData] = useState<{ [date: string]: any[] }>({});
 
   useEffect(() => {
@@ -25,6 +25,10 @@ export default function TabTwoScreen() {
 
   const handleComplete = (id: string) => {
     completeCalendarEntry(id);
+  };
+
+  const handleUncomplete = (id: string) => {
+    uncompleteCalendarEntry(id);
   };
 
   const handleUpdate = (id: string, updatedData: any) => {
@@ -51,6 +55,7 @@ export default function TabTwoScreen() {
                 key={index}
                 item={event}
                 onComplete={() => handleComplete(event.id)}
+                onUncomplete={() => handleUncomplete(event.id)}
                 onUpdate={(updatedData) => handleUpdate(event.id, updatedData)}
                 onRemove={() => handleRemove(event.id)}
               />
@@ -67,11 +72,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   dateContainer: {
     padding: 10,

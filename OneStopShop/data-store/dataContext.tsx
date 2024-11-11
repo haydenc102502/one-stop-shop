@@ -11,8 +11,6 @@ import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
 import { sendPushNotification, setupNotificationChannel, requestUserPermission } from '@/services/notificationService';
 
-
-
 // Initial User data
 const initialUserData: User[] = [
   { userId: 'as1899', name: 'Alice', secondName: 'Smith', phone: '555-1234', email: 'alice@example.com', role: UserRole.STUDENT },
@@ -28,9 +26,10 @@ const initialCalendarData: CalendarEntry[] = [
   { id: '4', userId: 'as1899', day: '2024-11-2', time: '2:09 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
   { id: '5', userId: 'as1899', day: '2024-11-2', time: '2:25 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
   { id: '6', userId: 'as1899', day: '2024-10-29', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-
+  { id: '7', userId: 'as1899', day: '2024-11-11', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+  { id: '8', userId: 'as1899', day: '2024-11-12', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
+  { id: '9', userId: 'as1899', day: '2024-11-12', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
 ];
-
 
 // Define context types
 interface DataContextType {
@@ -44,6 +43,7 @@ interface DataContextType {
   updateCalendarEntry: (id: string, updatedData: Partial<CalendarEntry>) => void;
   removeCalendarEntry: (id: string) => void;
   completeCalendarEntry: (id: string) => void;
+  uncompleteCalendarEntry: (id: string) => void;
 }
 
 
@@ -103,8 +103,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
   };
 
+  const uncompleteCalendarEntry = (id: string) => {
+    setCalendarData((prevData) =>
+      prevData.map((entry) => (entry.id === id ? { ...entry, completed: false } : entry))
+    );
+  };
+
   return (
-    <DataContext.Provider value={{ users, currentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry }}>
+    <DataContext.Provider value={{ users, currentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry, uncompleteCalendarEntry }}>
       {children}
     </DataContext.Provider>
   );

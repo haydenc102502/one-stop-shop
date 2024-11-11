@@ -1,5 +1,5 @@
-const tintColorLight = '#2f95dc';
-const tintColorDark = '#fff';
+const tintColorLight = '#F76902'; // change to RIT orange
+const tintColorDark = '#F76902'; // change to RIT orange
 
 export default {
   light: {

@@ -17,10 +17,11 @@ interface ItemProps {
   onComplete: () => void;
   onUpdate: (updatedData: any) => void;
   onRemove: () => void;
+  onUncomplete: () => void;
 }
 
 const AgendaItem = (props: ItemProps) => {
-  const { item, onComplete, onUpdate, onRemove } = props;
+  const { item, onComplete, onUpdate, onRemove, onUncomplete } = props;
   const [modalVisible, setModalVisible] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(item.title);
 
@@ -42,16 +43,25 @@ const AgendaItem = (props: ItemProps) => {
   }
 
   return (
-    <TouchableOpacity onPress={itemPressed} style={[styles.item, item.completed && styles.completedItem]}>
+    <TouchableOpacity onPress={itemPressed} style={[styles.item, item.completed ? styles.completedItem : styles.uncompletedItem]}>
       <View>
         <Text style={styles.itemHourText}>{item.hour}</Text>
         <Text style={styles.itemDurationText}>{item.duration}</Text>
       </View>
       <Text style={styles.itemTitleText}>{item.title}</Text>
       <View style={styles.itemButtonContainer}>
-        <Button color={'grey'} title={'Complete'} onPress={onComplete} />
-        <Button color={'grey'} title={'Update'} onPress={() => setModalVisible(true)} />
-        <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+        {item.completed ? (
+          <>
+            <Button color={'grey'} title={'Uncomplete'} onPress={onUncomplete} />
+            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+          </>
+        ) : (
+          <>
+            <Button color={'grey'} title={'Complete'} onPress={onComplete} />
+            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+            <Button color={'grey'} title={'Update'} onPress={() => setModalVisible(true)} />
+          </>
+        )}
       </View>
 
       <Modal
@@ -89,7 +99,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   completedItem: {
-    backgroundColor: '#d3ffd3', // Light green background for completed items
+    opacity: 0.5, // Reduce opacity for completed items
+    transform: [{ scaleY: 0.75 }], // Scale down completed items
+    filter: 'blur(2px)', // Apply blur effect for completed items
+  },
+  uncompletedItem: {
+    opacity: 1, // Full opacity for uncompleted items
   },
   itemHourText: {
     color: 'black',
