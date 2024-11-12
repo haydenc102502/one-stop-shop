@@ -12,9 +12,11 @@ interface ItemProps {
     hour?: string;
     duration?: string;
     title?: string;
+    description?: string; // Add description field
     completed?: boolean;
+    completedTime?: string;
   };
-  onComplete: () => void;
+  onComplete: (completedTime: string) => void;
   onUpdate: (updatedData: any) => void;
   onRemove: () => void;
   onUncomplete: () => void;
@@ -24,16 +26,33 @@ const AgendaItem = (props: ItemProps) => {
   const { item, onComplete, onUpdate, onRemove, onUncomplete } = props;
   const [modalVisible, setModalVisible] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(item.title);
-
-  const itemPressed = useCallback(() => {
-    Alert.alert(item.title || 'No Title');
-  }, [item.title]);
+  const [updatedHour, setUpdatedHour] = useState(item.hour);
+  const [updatedDuration, setUpdatedDuration] = useState(item.duration);
 
   const handleUpdate = () => {
-    onUpdate({ title: updatedTitle });
+    onUpdate({ title: updatedTitle, hour: updatedHour, duration: updatedDuration });
     setModalVisible(false);
   };
 
+  {/** Handle the completion of a task
+    * Called when the 'Complete' button is pressed */}
+  const handleComplete = () => {
+    const completedTime = new Date().toLocaleTimeString(); // Get the current time
+    onComplete(completedTime);
+  };
+
+  {/** Handle the press of the item
+    * If the task is completed, show an alert with the completion time
+    * If the task is not completed, show an alert with the description */}
+  const handlePress = () => {
+    if (item.completed) {
+      Alert.alert('Task Completed', `${item.title}\nCompleted at: ${item.completedTime}`);
+    } else {
+      Alert.alert('Task Description', item.description || 'No Description');
+    }
+  };
+
+  {/* Empty case when the user is lame */}
   if (isEmpty(item)) {
     return (
       <View style={styles.emptyItem}>
@@ -43,27 +62,37 @@ const AgendaItem = (props: ItemProps) => {
   }
 
   return (
-    <TouchableOpacity onPress={itemPressed} style={[styles.item, item.completed ? styles.completedItem : styles.uncompletedItem]}>
-      <View>
+    <TouchableOpacity onPress={handlePress} style={[styles.item, item.completed ? styles.completedItem : styles.uncompletedItem]}>
+      <View style={styles.itemHeader}>
+        <Text style={styles.itemTitleText}>{item.title}</Text>
         <Text style={styles.itemHourText}>{item.hour}</Text>
-        <Text style={styles.itemDurationText}>{item.duration}</Text>
       </View>
-      <Text style={styles.itemTitleText}>{item.title}</Text>
+      {item.completed && (
+        <View>
+          <Text style={styles.itemCompletedTimeText}>Completed at: {item.completedTime}</Text>
+        </View>
+      )}
+      {!item.completed && (
+        <View>
+          <Text style={styles.itemDurationText}>{item.duration}</Text>
+        </View>
+      )}
       <View style={styles.itemButtonContainer}>
-        {item.completed ? (
-          <>
+        {item.completed ? ( 
+          <> 
             <Button color={'grey'} title={'Uncomplete'} onPress={onUncomplete} />
             <Button color={'grey'} title={'Remove'} onPress={onRemove} />
           </>
         ) : (
           <>
-            <Button color={'grey'} title={'Complete'} onPress={onComplete} />
-            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+            <Button color={'grey'} title={'Complete'} onPress={handleComplete} />
             <Button color={'grey'} title={'Update'} onPress={() => setModalVisible(true)} />
+            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
           </>
         )}
       </View>
 
+      {/* Modal to update the task */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -79,8 +108,22 @@ const AgendaItem = (props: ItemProps) => {
               value={updatedTitle}
               onChangeText={setUpdatedTitle}
             />
-            <Button title="Update" onPress={handleUpdate} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            <TextInput
+              style={styles.input}
+              placeholder="Hour"
+              value={updatedHour}
+              onChangeText={setUpdatedHour}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Duration"
+              value={updatedDuration}
+              onChangeText={setUpdatedDuration}
+            />
+            <View style={styles.modalButtonContainer}>
+              <Button title="Cancel" onPress={() => setModalVisible(false)} color="gray" />
+              <Button title="Update" onPress={handleUpdate} color="#F76902" />
+            </View>
           </View>
         </View>
       </Modal>
@@ -100,14 +143,19 @@ const styles = StyleSheet.create({
   },
   completedItem: {
     opacity: 0.5, // Reduce opacity for completed items
-    transform: [{ scaleY: 0.75 }], // Scale down completed items
     filter: 'blur(2px)', // Apply blur effect for completed items
   },
   uncompletedItem: {
     opacity: 1, // Full opacity for uncompleted items
   },
+  itemHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   itemHourText: {
-    color: 'black',
+    color: 'grey',
+    fontSize: 12,
   },
   itemDurationText: {
     color: 'grey',
@@ -115,9 +163,14 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: 4,
   },
+  itemCompletedTimeText: {
+    color: 'black',
+    fontSize: 12,
+    marginTop: 4,
+    marginLeft: 4,
+  },
   itemTitleText: {
     color: 'black',
-    marginLeft: 16,
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -162,6 +215,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     borderRadius: 5,
+    width: '100%',
+  },
+  modalButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '100%',
   },
 });

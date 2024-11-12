@@ -18,13 +18,14 @@ export default function TabTwoScreen() {
         hour: entry.time,
         duration: '1h',
         completed: entry.completed,
+        completedTime: entry.completedTime, // Add this line
       });
     });
     setAgendaData(data);
   }, [calendarData]);
 
-  const handleComplete = (id: string) => {
-    completeCalendarEntry(id);
+  const handleComplete = (id: string, completedTime: string) => {
+    completeCalendarEntry(id, completedTime);
   };
 
   const handleUncomplete = (id: string) => {
@@ -54,7 +55,7 @@ export default function TabTwoScreen() {
               <AgendaItem
                 key={index}
                 item={event}
-                onComplete={() => handleComplete(event.id)}
+                onComplete={(completedTime) => handleComplete(event.id, completedTime)} // Pass completedTime
                 onUncomplete={() => handleUncomplete(event.id)}
                 onUpdate={(updatedData) => handleUpdate(event.id, updatedData)}
                 onRemove={() => handleRemove(event.id)}

@@ -97,9 +97,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData((prevData) => prevData.filter((entry) => entry.id !== id));
   };
 
-  const completeCalendarEntry = (id: string) => {
+  const completeCalendarEntry = (id: string, completedTime: String) => {
     setCalendarData((prevData) =>
-      prevData.map((entry) => (entry.id === id ? { ...entry, completed: true } : entry))
+      prevData.map((entry) => (entry.id === id ? { ...entry, completed: true, completedTime } : entry))
     );
   };
 
