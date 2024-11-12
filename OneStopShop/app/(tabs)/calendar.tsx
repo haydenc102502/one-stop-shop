@@ -10,9 +10,10 @@ const categoryColors = {
   [CalendarEntryCategory.GRADES]: 'red',
   [CalendarEntryCategory.ANNOUNCEMENT]: 'yellow',
   [CalendarEntryCategory.ASSIGNMENT]: 'green',
+  completed: 'gray',
 };
 
-export default function CalendarScreen() {
+function CalendarScreen() {
   const [selected, setSelected] = useState('');
   const [selectedDateDetails, setSelectedDateDetails] = useState<CalendarEntry[] | null>(null);
   const { currentUserId, calendarData, sendPushNotifications } = useDataContext();
@@ -29,7 +30,7 @@ export default function CalendarScreen() {
     }
     markedDates[entry.day].dots.push({
       key: `${entry.day}-${markedDates[entry.day].dots.length}`,
-      color: categoryColors[entry.calendarEntryCategory] || 'blue', // Default color if not matched
+      color: entry.completed ? categoryColors.completed : categoryColors[entry.calendarEntryCategory] || 'blue',
     });
   });
 
@@ -59,7 +60,7 @@ export default function CalendarScreen() {
               selectedColor: 'orange',
             },
           }}
-          markingType={'multi-dot'} // Allows for multiple dots
+          markingType={'multi-dot'}
           style={styles.calendar}
         />
       </View>
@@ -83,6 +84,8 @@ export default function CalendarScreen() {
     </View>
   );
 }
+
+export default CalendarScreen;
 
 const styles = StyleSheet.create({
   container: {

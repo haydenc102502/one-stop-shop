@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Alert, View, Text, TouchableOpacity, Button, Modal, TextInput } from 'react-native';
+import { CalendarEntryCategory } from '@/data-store/calendarEntryCategory';
 
 // Explicitly type the isEmpty function to accept any object or undefined
 const isEmpty = (obj: Record<string, unknown> | undefined | null): boolean => {
@@ -9,12 +10,14 @@ const isEmpty = (obj: Record<string, unknown> | undefined | null): boolean => {
 interface ItemProps {
   item: {
     id: string;
-    hour?: string;
+    day: string;
+    time?: string;
     duration?: string;
     title?: string;
-    description?: string; // Add description field
+    description?: string;
     completed?: boolean;
     completedTime?: string;
+    calendarEntryCategory?: CalendarEntryCategory;
   };
   onComplete: (completedTime: string) => void;
   onUpdate: (updatedData: any) => void;
@@ -26,24 +29,35 @@ const AgendaItem = (props: ItemProps) => {
   const { item, onComplete, onUpdate, onRemove, onUncomplete } = props;
   const [modalVisible, setModalVisible] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(item.title);
-  const [updatedHour, setUpdatedHour] = useState(item.hour);
+  const [updatedDay, setUpdatedDay] = useState(item.day);
+  const [updatedHour, setUpdatedHour] = useState(item.time);
   const [updatedDuration, setUpdatedDuration] = useState(item.duration);
+  const [updatedDescription, setUpdatedDescription] = useState(item.description);
+  const [updatedCategory, setUpdatedCategory] = useState(item.calendarEntryCategory);
 
   const handleUpdate = () => {
-    onUpdate({ title: updatedTitle, hour: updatedHour, duration: updatedDuration });
+    const updatedData = {
+      title: updatedTitle !== undefined ? updatedTitle : item.title,
+      day: updatedDay !== undefined ? updatedDay : item.day,
+      time: updatedHour !== undefined ? updatedHour : item.time,
+      duration: updatedDuration !== undefined ? updatedDuration : item.duration,
+      description: updatedDescription !== undefined ? updatedDescription : item.description,
+      calendarEntryCategory: updatedCategory !== undefined ? updatedCategory : item.calendarEntryCategory,
+    };
+    onUpdate(updatedData);
     setModalVisible(false);
   };
 
-  {/** Handle the completion of a task
-    * Called when the 'Complete' button is pressed */}
+  // Handle the completion of a task
+  // Called when the 'Complete' button is pressed
   const handleComplete = () => {
-    const completedTime = new Date().toLocaleTimeString(); // Get the current time
+    const completedTime = new Date().toLocaleTimeString();
     onComplete(completedTime);
   };
 
-  {/** Handle the press of the item
-    * If the task is completed, show an alert with the completion time
-    * If the task is not completed, show an alert with the description */}
+  // Handle the press of the item
+  // If the task is completed, show an alert with the completion time
+  // If the task is not completed, show an alert with the description
   const handlePress = () => {
     if (item.completed) {
       Alert.alert('Task Completed', `${item.title}\nCompleted at: ${item.completedTime}`);
@@ -52,7 +66,11 @@ const AgendaItem = (props: ItemProps) => {
     }
   };
 
-  {/* Empty case when the user is lame */}
+  const truncateDescription = (description: string | undefined) => {
+    if (!description) return '';
+    return description.length > 10 ? `${description.substring(0, 10)}...` : description;
+  };
+
   if (isEmpty(item)) {
     return (
       <View style={styles.emptyItem}>
@@ -65,21 +83,22 @@ const AgendaItem = (props: ItemProps) => {
     <TouchableOpacity onPress={handlePress} style={[styles.item, item.completed ? styles.completedItem : styles.uncompletedItem]}>
       <View style={styles.itemHeader}>
         <Text style={styles.itemTitleText}>{item.title}</Text>
-        <Text style={styles.itemHourText}>{item.hour}</Text>
+        <View>
+          <Text style={styles.itemHourText}>{item.time}</Text>
+          <Text style={styles.itemDurationText}>{item.duration}</Text>
+        </View>
+      </View>
+      <View>
+        <Text style={styles.itemDescriptionText}>{truncateDescription(item.description)}</Text>
       </View>
       {item.completed && (
         <View>
           <Text style={styles.itemCompletedTimeText}>Completed at: {item.completedTime}</Text>
         </View>
       )}
-      {!item.completed && (
-        <View>
-          <Text style={styles.itemDurationText}>{item.duration}</Text>
-        </View>
-      )}
       <View style={styles.itemButtonContainer}>
-        {item.completed ? ( 
-          <> 
+        {item.completed ? (
+          <>
             <Button color={'grey'} title={'Uncomplete'} onPress={onUncomplete} />
             <Button color={'grey'} title={'Remove'} onPress={onRemove} />
           </>
@@ -90,7 +109,7 @@ const AgendaItem = (props: ItemProps) => {
             <Button color={'grey'} title={'Remove'} onPress={onRemove} />
           </>
         )}
-      </View>
+        </View>
 
       {/* Modal to update the task */}
       <Modal
@@ -110,6 +129,18 @@ const AgendaItem = (props: ItemProps) => {
             />
             <TextInput
               style={styles.input}
+              placeholder="Description"
+              value={updatedDescription}
+              onChangeText={setUpdatedDescription}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Day (e.g., 2024-10-29)"
+              value={updatedDay}
+              onChangeText={setUpdatedDay}
+            />
+            <TextInput
+              style={styles.input}
               placeholder="Hour"
               value={updatedHour}
               onChangeText={setUpdatedHour}
@@ -120,6 +151,19 @@ const AgendaItem = (props: ItemProps) => {
               value={updatedDuration}
               onChangeText={setUpdatedDuration}
             />
+            <View style={styles.categoryRow}>
+              {Object.values(CalendarEntryCategory).map((cat) => (
+                <TouchableOpacity
+                  key={cat}
+                  style={[styles.categoryButton, updatedCategory === cat && styles.selectedCategoryButton]}
+                  onPress={() => setUpdatedCategory(cat)}
+                >
+                  <Text style={updatedCategory === cat ? styles.selectedCategoryText : styles.categoryText}>
+                    {cat}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
             <View style={styles.modalButtonContainer}>
               <Button title="Cancel" onPress={() => setModalVisible(false)} color="gray" />
               <Button title="Update" onPress={handleUpdate} color="#F76902" />
@@ -142,11 +186,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   completedItem: {
-    opacity: 0.5, // Reduce opacity for completed items
-    filter: 'blur(2px)', // Apply blur effect for completed items
+    opacity: 0.5,
   },
   uncompletedItem: {
-    opacity: 1, // Full opacity for uncompleted items
+    opacity: 1,
   },
   itemHeader: {
     flexDirection: 'row',
@@ -161,7 +204,11 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 12,
     marginTop: 4,
-    marginLeft: 4,
+  },
+  itemDescriptionText: {
+    color: 'black',
+    fontSize: 14,
+    marginTop: 4,
   },
   itemCompletedTimeText: {
     color: 'black',
@@ -221,5 +268,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+  },
+  categoryRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+  },
+  categoryButton: {
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  selectedCategoryButton: {
+    backgroundColor: '#F76902',
+  },
+  categoryText: {
+    color: '#000',
+  },
+  selectedCategoryText: {
+    color: '#fff',
   },
 });

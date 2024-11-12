@@ -6,20 +6,13 @@ import AgendaItem from '@/components/AgendaItem';
 
 export default function TabTwoScreen() {
   const { calendarData, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry, uncompleteCalendarEntry } = useDataContext();
-  const [agendaData, setAgendaData] = useState<{ [date: string]: any[] }>({});
+  const [agendaData, setAgendaData] = useState<{ [date: string]: CalendarEntry[] }>({});
 
   useEffect(() => {
-    const data: { [date: string]: any[] } = {};
+    const data: { [date: string]: CalendarEntry[] } = {};
     calendarData.forEach((entry) => {
       if (!data[entry.day]) data[entry.day] = [];
-      data[entry.day].push({
-        id: entry.id,
-        title: entry.description,
-        hour: entry.time,
-        duration: '1h',
-        completed: entry.completed,
-        completedTime: entry.completedTime, // Add this line
-      });
+      data[entry.day].push(entry);
     });
     setAgendaData(data);
   }, [calendarData]);
@@ -32,7 +25,7 @@ export default function TabTwoScreen() {
     uncompleteCalendarEntry(id);
   };
 
-  const handleUpdate = (id: string, updatedData: any) => {
+  const handleUpdate = (id: string, updatedData: Partial<CalendarEntry>) => {
     updateCalendarEntry(id, updatedData);
   };
 
@@ -55,7 +48,7 @@ export default function TabTwoScreen() {
               <AgendaItem
                 key={index}
                 item={event}
-                onComplete={(completedTime) => handleComplete(event.id, completedTime)} // Pass completedTime
+                onComplete={(completedTime) => handleComplete(event.id, completedTime)}
                 onUncomplete={() => handleUncomplete(event.id)}
                 onUpdate={(updatedData) => handleUpdate(event.id, updatedData)}
                 onRemove={() => handleRemove(event.id)}

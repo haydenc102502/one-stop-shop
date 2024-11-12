@@ -20,15 +20,12 @@ const initialUserData: User[] = [
 // Initial Calendar data
 // Initial Calendar data as an array of CalendarEntry objects
 const initialCalendarData: CalendarEntry[] = [
-  { id: '1', userId: 'as1899', day: '2024-10-28', time: '10:00 AM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
-  { id: '2', userId: 'as1899', day: '2024-10-29', time: '10:00 AM', description: 'SWEN 444 class canceled', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
-  { id: '3', userId: 'as1899', day: '2024-10-29', time: '2:00 PM', description: 'New assignment posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
-  { id: '4', userId: 'as1899', day: '2024-11-2', time: '2:09 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-  { id: '5', userId: 'as1899', day: '2024-11-2', time: '2:25 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-  { id: '6', userId: 'as1899', day: '2024-10-29', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-  { id: '7', userId: 'as1899', day: '2024-11-11', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-  { id: '8', userId: 'as1899', day: '2024-11-12', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
-  { id: '9', userId: 'as1899', day: '2024-11-12', time: '7:00 PM', description: 'Grades posted', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '1', userId: 'as1899', day: '2024-10-28', time: '10:00 AM', title: '746 Grades Exam Grades Posted', description: '25/25', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '2', userId: 'as1899', day: '2024-10-29', time: '10:00 AM', title: 'SWEN 444 class canceled', description: 'Class cancelled sorry lmao', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '3', userId: 'as1899', day: '2024-10-29', time: '2:00 PM', title: '620 New Assignment', description: 'New assignment posted: Applying OO Principles 2', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
+  { id: '4', userId: 'as1889', day: '2024-11-12', time: '10:00 AM', title: '620 Grades Exam Grades Posted', description: '13/25', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+  { id: '5', userId: 'as1889', day: '2024-11-12', time: '10:00 AM', title: '777 Announcement', description: 'Hello guys', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '6', userId: 'as1889', day: '2024-11-12', time: '10:00 AM', title: '777 Assignment', description: 'Goodbye guys', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
 ];
 
 // Define context types
@@ -50,9 +47,8 @@ interface DataContextType {
 // Context for data store and functions
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-// Provider to wrap the app and provide data to all components
-export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [users] = useState<User[]>(initialUserData);
+export const DataProvider: React.FC = ({ children }) => {
+  const [users, setUsers] = useState<User[]>(initialUserData);
   const [calendarData, setCalendarData] = useState<CalendarEntry[]>(initialCalendarData);
   const [currentUserId, setCurrentUserId] = useState<string | null>('as1899'); // Initialize with null or a default user
 
@@ -61,9 +57,8 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData((prevData) => [...prevData, entry]);
   };
 
-  // Get entries by userId
-  const getEntriesByUserId = (userId: string): CalendarEntry[] => {
-    return calendarData.filter(entry => entry.userId === userId);
+  const getEntriesByUserId = (userId: string) => {
+    return calendarData.filter((entry) => entry.userId === userId);
   };
 
   const sendPushNotifications = async () => {
@@ -91,13 +86,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, ...updatedData } : entry))
     );
+    console.log('Updated calendar entry:', id, updatedData);
   };
 
   const removeCalendarEntry = (id: string) => {
     setCalendarData((prevData) => prevData.filter((entry) => entry.id !== id));
   };
 
-  const completeCalendarEntry = (id: string, completedTime: String) => {
+  const completeCalendarEntry = (id: string, completedTime: string) => {
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, completed: true, completedTime } : entry))
     );
@@ -110,7 +106,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <DataContext.Provider value={{ users, currentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry, uncompleteCalendarEntry }}>
+    <DataContext.Provider value={{ users, currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry, uncompleteCalendarEntry }}>
       {children}
     </DataContext.Provider>
   );
