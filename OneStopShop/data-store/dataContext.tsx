@@ -153,6 +153,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setUsers((prevUsers) => {
       const updatedUsers = [...prevUsers, user];
+      // TODO: STOP LOGGING SENSITIVE DATA
       console.log('Updated Users:', updatedUsers);
       return updatedUsers;
     });
