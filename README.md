@@ -189,6 +189,15 @@ To set up the development environment for the One Stop Shop application, follow 
     - Press `i` to run on an iOS simulator (only available on macOS).
     - Press `a` to run on an Android emulator (requires Android Studio).
 
+5. **Run Unit Tests**:
+
+    ```bash
+    npm run test
+    ```
+
+    - Press `q` to quit the tests.
+    - Press `Enter` to rerun the tests.
+
 For more detailed instructions, refer to the [Expo documentation](https://docs.expo.dev/get-started/start-developing/).
 
 ## Libraries used
