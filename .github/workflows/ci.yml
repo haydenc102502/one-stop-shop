@@ -1,4 +1,4 @@
-name: CI
+name: CI for React Native App with Jest and Expo
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
         working-directory: OneStopShop
 
       - name: Run tests
-        run: npm run test:no-snapshot
+        run: npm run test
         working-directory: OneStopShop
 
       - name: Stop CI
