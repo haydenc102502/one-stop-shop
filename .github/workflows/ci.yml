@@ -26,5 +26,5 @@ jobs:
         working-directory: OneStopShop
 
       - name: Run tests
-        run: npm run test -- --updateSnapshot
+        run: npm run test
         working-directory: OneStopShop
