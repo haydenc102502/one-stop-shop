@@ -21,15 +21,6 @@ jobs:
         with:
           node-version: '20'
 
-      # TO DO: Add cache for node_modules
-      # - name: Cache node_modules
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: OneStopShop/node_modules
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-node-
-
       - name: Install dependencies
         run: npm install
         working-directory: OneStopShop
@@ -38,8 +29,5 @@ jobs:
         run: npm run test -- --coverage
         working-directory: OneStopShop
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: OneStopShop/coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
