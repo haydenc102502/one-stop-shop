@@ -25,6 +25,11 @@ interface ItemProps {
   onUncomplete: () => void;
 }
 
+/**
+ * AgendaItem component to display a single item in the index.tsx
+ * @param props contains the item, onComplete, onUpdate, onRemove, and onUncomplete functions
+ * @returns a TouchableOpacity component with the item details and buttons to complete, update, and remove the item
+ */
 const AgendaItem = (props: ItemProps) => {
   const { item, onComplete, onUpdate, onRemove, onUncomplete } = props;
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,6 +40,7 @@ const AgendaItem = (props: ItemProps) => {
   const [updatedDescription, setUpdatedDescription] = useState(item.description);
   const [updatedCategory, setUpdatedCategory] = useState(item.calendarEntryCategory);
 
+  // Handle the update of a task with the updated data
   const handleUpdate = () => {
     const updatedData = {
       title: updatedTitle !== undefined ? updatedTitle : item.title,
@@ -48,16 +54,16 @@ const AgendaItem = (props: ItemProps) => {
     setModalVisible(false);
   };
 
-  // Handle the completion of a task
-  // Called when the 'Complete' button is pressed
+  /* Handle the completion of a task by calling the onComplete function */
   const handleComplete = () => {
     const completedTime = new Date().toLocaleTimeString();
     onComplete(completedTime);
   };
 
-  // Handle the press of the item
-  // If the task is completed, show an alert with the completion time
-  // If the task is not completed, show an alert with the description
+  /** Handle the press of the item
+   * If the task is completed, show an alert with the completion time
+   * If the task is not completed, show an alert with the description
+   */
   const handlePress = () => {
     if (item.completed) {
       Alert.alert('Task Completed', `${item.title}\nCompleted at: ${item.completedTime}`);
@@ -66,11 +72,16 @@ const AgendaItem = (props: ItemProps) => {
     }
   };
 
+  /** Truncate the description to 10 characters if it is longer than 10 characters and add '...' at the end
+   * @param description the description of the task
+   * @returns new description with 10 characters or less
+   */
   const truncateDescription = (description: string | undefined) => {
     if (!description) return '';
     return description.length > 10 ? `${description.substring(0, 10)}...` : description;
   };
 
+  /* If the item is empty, return a view with a message saying 'No Events Planned Today' */
   if (isEmpty(item)) {
     return (
       <View style={styles.emptyItem}>
@@ -79,6 +90,7 @@ const AgendaItem = (props: ItemProps) => {
     );
   }
 
+  // Return the TouchableOpacity component with the item details and buttons
   return (
     <TouchableOpacity onPress={handlePress} style={[styles.item, item.completed ? styles.completedItem : styles.uncompletedItem]}>
       <View style={styles.itemHeader}>

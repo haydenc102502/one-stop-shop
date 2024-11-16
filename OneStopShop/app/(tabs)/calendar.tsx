@@ -22,7 +22,12 @@ function CalendarScreen() {
     sendPushNotifications();
   }, [calendarData]);
 
-  // Convert `calendarData` to `markedDates` with color-coded dots for each category
+  /**
+   * Convert calendarData to markedDates with color-coded dots for each category
+   * @param calendarData the array of calendar entries to be converted
+   * @returns an object with date strings as keys and an array of dots as values
+   * green for assignments, red for grades, yellow for announcements, gray for completed
+   */
   const markedDates = {} as Record<string, any>;
   calendarData.forEach((entry) => {
     if (!markedDates[entry.day]) {
@@ -42,6 +47,7 @@ function CalendarScreen() {
     setSelectedDateDetails(dateEntries.length > 0 ? dateEntries : null);
   };
 
+  // Render the calendar screen
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Current User ID: {currentUserId}</Text>
