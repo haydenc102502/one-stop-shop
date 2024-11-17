@@ -64,9 +64,8 @@ export default function AddCalendarEntry() {
       <TouchableOpacity style={styles.userSelector} onPress={() => setModalVisible(true)}>
         <Text style={styles.userSelectorText}>
           {selectedUserId
-            ? `${users.find((user) => user.userId === selectedUserId)?.name} ${
-                users.find((user) => user.userId === selectedUserId)?.secondName
-              }`
+            ? `${users.find((user) => user.userId === selectedUserId)?.name} ${users.find((user) => user.userId === selectedUserId)?.secondName
+            }`
             : 'Select a User'}
         </Text>
       </TouchableOpacity>

@@ -6,11 +6,11 @@ import { Platform, Alert } from 'react-native';
 
 // Request permission for notifications
 export const requestUserPermission = async () => {
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  const { status: existingStatus } = (await Notifications.getPermissionsAsync()) || {};
   let finalStatus = existingStatus;
 
   if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync();
+    const { status } = (await Notifications.requestPermissionsAsync()) || {};
     finalStatus = status;
   }
 
