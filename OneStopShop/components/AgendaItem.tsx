@@ -125,64 +125,65 @@ const AgendaItem = (props: ItemProps) => {
 
       {/* Modal to update the task */}
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Update Task</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Title"
-              value={updatedTitle}
-              onChangeText={setUpdatedTitle}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Description"
-              value={updatedDescription}
-              onChangeText={setUpdatedDescription}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Day (e.g., 2024-10-29)"
-              value={updatedDay}
-              onChangeText={setUpdatedDay}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Hour"
-              value={updatedHour}
-              onChangeText={setUpdatedHour}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Duration"
-              value={updatedDuration}
-              onChangeText={setUpdatedDuration}
-            />
-            <View style={styles.categoryRow}>
-              {Object.values(CalendarEntryCategory).map((cat) => (
-                <TouchableOpacity
-                  key={cat}
-                  style={[styles.categoryButton, updatedCategory === cat && styles.selectedCategoryButton]}
-                  onPress={() => setUpdatedCategory(cat)}
-                >
-                  <Text style={updatedCategory === cat ? styles.selectedCategoryText : styles.categoryText}>
-                    {cat}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <View style={styles.modalButtonContainer}>
-              <Button title="Cancel" onPress={() => setModalVisible(false)} color="gray" />
-              <Button title="Update" onPress={handleUpdate} color="#F76902" />
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+          testID="modal-container"
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>Update Task</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Title"
+                value={updatedTitle}
+                onChangeText={setUpdatedTitle}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Description"
+                value={updatedDescription}
+                onChangeText={setUpdatedDescription}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Day (e.g., 2024-10-29)"
+                value={updatedDay}
+                onChangeText={setUpdatedDay}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Hour"
+                value={updatedHour}
+                onChangeText={setUpdatedHour}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Duration"
+                value={updatedDuration}
+                onChangeText={setUpdatedDuration}
+              />
+              <View style={styles.categoryRow}>
+                {Object.values(CalendarEntryCategory).map((cat) => (
+                  <TouchableOpacity
+                    key={cat}
+                    style={[styles.categoryButton, updatedCategory === cat && styles.selectedCategoryButton]}
+                    onPress={() => setUpdatedCategory(cat)}
+                  >
+                    <Text style={updatedCategory === cat ? styles.selectedCategoryText : styles.categoryText}>
+                      {cat}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View style={styles.modalButtonContainer}>
+                <Button title="Cancel" onPress={() => setModalVisible(false)} color="gray" />
+                <Button title="Update" onPress={handleUpdate} color="#F76902" />
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
     </TouchableOpacity>
   );
 };
