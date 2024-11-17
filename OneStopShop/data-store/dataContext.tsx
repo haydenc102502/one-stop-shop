@@ -142,11 +142,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [calendarData]);
 
   /**
- * Adds a new user to the users state if the email does not already exist.
- *
- * @param user - The User to add.
- * @returns True if the user was added, false if the email already exists.
- */
+   * Adds a new user to the users state if the email does not already exist.
+   *
+   * @param user - The User to add.
+   * @returns True if the user was added, false if the email already exists.
+   */
   const addUser = (user: User): boolean => {
     const userExists = users.some((existingUser) => existingUser.email === user.email);
     if (userExists) {
@@ -212,21 +212,21 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Provide the context values to the child components.
   return (
     <DataContext.Provider
-    value={{
-      users, 
-currentUserId: currentUserId, 
-setCurrentUserId, 
-calendarData, 
-addCalendarEntry, 
-getEntriesByUserId, 
-sendPushNotifications, 
-currentUser,
-      setCurrentUser,
-      addUser,
-      getUsers,
-      authenticateUser,
-      userExists,
-    }}
+      value={{
+        users,
+        currentUserId: currentUserId,
+        setCurrentUserId,
+        calendarData,
+        addCalendarEntry,
+        getEntriesByUserId,
+        sendPushNotifications,
+        currentUser,
+        setCurrentUser,
+        addUser,
+        getUsers,
+        authenticateUser,
+        userExists,
+      }}
     >
       {children}
     </DataContext.Provider>
