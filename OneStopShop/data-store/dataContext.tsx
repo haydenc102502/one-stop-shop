@@ -131,7 +131,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData([...calendarData]);
 
     // Trigger push notification (this is a placeholder, replace with actual push notification logic)
-    console.log(`Push Notification for ${currentUserId}: ${message}`)
+    // console.log(`Push Notification for ${currentUserId}: ${message}`)
     await sendPushNotification('Calendar Notification', message);
   };
 
@@ -155,8 +155,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     setUsers((prevUsers) => {
       const updatedUsers = [...prevUsers, user];
-      // TODO: STOP LOGGING SENSITIVE DATA
-      console.log('Updated Users:', updatedUsers);
+      // console.log('Updated Users:', updatedUsers);
       return updatedUsers;
     });
 

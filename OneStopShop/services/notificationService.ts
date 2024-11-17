@@ -32,7 +32,7 @@ export const requestUserPermission = async () => {
   const token = (await Notifications.getExpoPushTokenAsync({
     projectId: Constants.expoConfig?.extra?.eas?.projectId,
   })).data;
-  console.log(token);
+  // console.log(token);
   return token;
 };
 
