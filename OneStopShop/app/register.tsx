@@ -167,9 +167,9 @@ const styles = StyleSheet.create({
   },
   title: {
     position: 'absolute',
-    top: 35,
-    left: 20,
-    fontSize: 18,
+    top: 75,
+    left: 30,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   inputContainer: {
@@ -214,15 +214,18 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     position: 'absolute',
-    top: 40,
-    right: 20,
-    paddingHorizontal: 30,
-    backgroundColor: 'transparent',
+    top: 70,
+    right: 30,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    backgroundColor: '#007bff',
+    borderRadius: 8,
   },
   registerButtonText: {
-    color: '#000',
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 16,
+    color: '#ffffff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   loginLinkText: {
     color: 'blue',
