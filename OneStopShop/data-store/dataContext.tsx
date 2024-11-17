@@ -49,7 +49,7 @@ const initialCalendarData: CalendarEntry[] = [
   { id: '4', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '620 Grades Exam Grades Posted', description: '13/25', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
   { id: '5', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '777 Announcement', description: 'Hello guys', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
   { id: '6', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '777 Assignment', description: 'Goodbye guys', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
-
+]
 
 /**
  * Defines the structure of the DataContext, including state and functions
