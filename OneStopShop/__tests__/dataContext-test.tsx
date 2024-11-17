@@ -1,43 +1,3 @@
-/**
- * TestComponent is a test component that uses the DataContext to display the count of users and calendar entries.
- * 
- * @returns A React fragment containing Text components displaying the user and calendar data counts.
- */
-
-/**
- * AuthTestComponent is a test component that uses the DataContext to authenticate a user.
- * 
- * @param email - The email of the user to authenticate.
- * @param password - The password of the user to authenticate.
- * 
- * @returns A Text component displaying whether the user is authenticated.
- */
-
-/**
- * AddUserTestComponent is a test component that uses the DataContext to add a new user.
- * 
- * @param user - The user object to add.
- * 
- * @returns A Text component displaying whether the user was successfully added.
- */
-
-/**
- * AddCalendarEntryTestComponent is a test component that uses the DataContext to add a new calendar entry.
- * 
- * @param entry - The calendar entry object to add.
- * 
- * @returns A Text component displaying the updated count of calendar entries.
- */
-
-/**
- * DataContext test suite.
- * 
- * This suite contains tests for the DataContext, including:
- * - Providing initial user and calendar data.
- * - Authenticating a user with correct and incorrect credentials.
- * - Adding a new user.
- * - Adding a new calendar entry.
- */
 import React, { useEffect } from 'react';
 import { render } from '@testing-library/react-native';
 import { Text } from 'react-native';
@@ -45,6 +5,11 @@ import { DataProvider, useDataContext } from '@/data-store/dataContext';
 import { UserRole } from '@/data-store/userRole';
 import { CalendarEntryCategory } from '@/data-store/calendarEntryCategory';
 
+/**
+ * TestComponent is a test component that uses the DataContext to display the count of users and calendar entries.
+ * 
+ * @returns A React fragment containing Text components displaying the user and calendar data counts.
+ */
 const TestComponent = () => {
   const { users, calendarData } = useDataContext();
 
@@ -56,6 +21,14 @@ const TestComponent = () => {
   );
 };
 
+/**
+ * AuthTestComponent is a test component that uses the DataContext to authenticate a user.
+ * 
+ * @param email - The email of the user to authenticate.
+ * @param password - The password of the user to authenticate.
+ * 
+ * @returns A Text component displaying whether the user is authenticated.
+ */
 const AuthTestComponent = ({ email, password }: { email: string; password: string }) => {
   const { authenticateUser } = useDataContext();
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -67,6 +40,13 @@ const AuthTestComponent = ({ email, password }: { email: string; password: strin
   return <Text testID="auth-result">{isAuthenticated ? 'true' : 'false'}</Text>;
 };
 
+/**
+ * AddUserTestComponent is a test component that uses the DataContext to add a new user.
+ * 
+ * @param user - The user object to add.
+ * 
+ * @returns A Text component displaying whether the user was successfully added.
+ */
 const AddUserTestComponent = ({ user }: { user: any }) => {
   const { addUser } = useDataContext();
   const [isAdded, setIsAdded] = React.useState(false);
@@ -78,6 +58,13 @@ const AddUserTestComponent = ({ user }: { user: any }) => {
   return <Text testID="add-user-result">{isAdded ? 'true' : 'false'}</Text>;
 };
 
+/**
+ * AddCalendarEntryTestComponent is a test component that uses the DataContext to add a new calendar entry.
+ * 
+ * @param entry - The calendar entry object to add.
+ * 
+ * @returns A Text component displaying the updated count of calendar entries.
+ */
 const AddCalendarEntryTestComponent = ({ entry }: { entry: any }) => {
   const { addCalendarEntry, calendarData } = useDataContext();
 
@@ -88,6 +75,15 @@ const AddCalendarEntryTestComponent = ({ entry }: { entry: any }) => {
   return <Text testID="calendar-count">{calendarData.length}</Text>;
 };
 
+/**
+ * DataContext test suite.
+ * 
+ * This suite contains tests for the DataContext, including:
+ * - Providing initial user and calendar data.
+ * - Authenticating a user with correct and incorrect credentials.
+ * - Adding a new user.
+ * - Adding a new calendar entry.
+ */
 describe('DataContext', () => {
   test('should provide initial user and calendar data', () => {
     const { getByTestId } = render(
