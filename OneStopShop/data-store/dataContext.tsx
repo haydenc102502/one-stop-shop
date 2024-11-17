@@ -1,5 +1,7 @@
 // dataContext.tsx
 
+// dataContext.tsx
+
 /**
  * Centralized Data Store and State Management for calendarData and users. 
  * This ensures that when any component updates calendarData, all components that use the context
@@ -13,6 +15,10 @@ import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
 import { sendPushNotification, setupNotificationChannel, requestUserPermission } from '@/services/notificationService';
 
+/**
+ * Initial user data for the application.
+ * This mock data represents the users and is used to initialize the application's state.
+ */
 /**
  * Initial user data for the application.
  * This mock data represents the users and is used to initialize the application's state.
@@ -36,8 +42,30 @@ const initialUserData: User[] = [
     role: UserRole.FACULTY,
     password: 'password',
   },
+  {
+    userId: 'as1899',
+    name: 'Alice',
+    secondName: 'Smith',
+    phone: '555-1234',
+    email: 'alice@example.com',
+    role: UserRole.STUDENT,
+    password: 'password',
+  },
+  {
+    userId: 'bj1234',
+    name: 'Bob',
+    secondName: 'Johnson',
+    phone: '555-5678',
+    email: 'bobjohnson@example.com',
+    role: UserRole.FACULTY,
+    password: 'password',
+  },
 ];
 
+/**
+ * Initial calendar entries for the application.
+ * This mock data represents calendar events and is used to initialize the application's state.
+ */
 /**
  * Initial calendar entries for the application.
  * This mock data represents calendar events and is used to initialize the application's state.
@@ -79,6 +107,12 @@ interface DataContextType {
 // This context will be used by components to access and manipulate user and calendar data.
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
+/**
+ * DataProvider Component
+ * Wraps the application and provides user and calendar data via context.
+ *
+ * @param children - The child components that will consume the context.
+ */
 /**
  * DataProvider Component
  * Wraps the application and provides user and calendar data via context.
@@ -141,6 +175,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData([...calendarData]);
 
     // Trigger push notification (this is a placeholder, replace with actual push notification logic)
+    // console.log(`Push Notification for ${currentUserId}: ${message}`)
     // console.log(`Push Notification for ${currentUserId}: ${message}`)
     await sendPushNotification('Calendar Notification', message);
   };
@@ -290,6 +325,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
+/**
+ * Custom hook to use the DataContext.
+ *
+ * @returns The DataContext value.
+ * @throws Error if used outside of a DataProvider.
+ */
 /**
  * Custom hook to use the DataContext.
  *

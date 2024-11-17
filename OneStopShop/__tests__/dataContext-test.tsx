@@ -102,7 +102,7 @@ describe('DataContext', () => {
       </DataProvider>
     );
 
-    expect(getByTestId('user-count').props.children).toBe(2);
+    expect(getByTestId('user-count').props.children).toBe(4);
     expect(getByTestId('calendar-count').props.children).toBe(6); // Updated count to match initial data
   });
 
