@@ -1,7 +1,5 @@
 // dataContext.tsx
 
-// dataContext.tsx
-
 /**
  * Centralized Data Store and State Management for calendarData and users. 
  * This ensures that when any component updates calendarData, all components that use the context
@@ -15,10 +13,6 @@ import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
 import { sendPushNotification, setupNotificationChannel, requestUserPermission } from '@/services/notificationService';
 
-/**
- * Initial user data for the application.
- * This mock data represents the users and is used to initialize the application's state.
- */
 /**
  * Initial user data for the application.
  * This mock data represents the users and is used to initialize the application's state.
@@ -42,30 +36,8 @@ const initialUserData: User[] = [
     role: UserRole.FACULTY,
     password: 'password',
   },
-  {
-    userId: 'as1899',
-    name: 'Alice',
-    secondName: 'Smith',
-    phone: '555-1234',
-    email: 'alice@example.com',
-    role: UserRole.STUDENT,
-    password: 'password',
-  },
-  {
-    userId: 'bj1234',
-    name: 'Bob',
-    secondName: 'Johnson',
-    phone: '555-5678',
-    email: 'bobjohnson@example.com',
-    role: UserRole.FACULTY,
-    password: 'password',
-  },
 ];
 
-/**
- * Initial calendar entries for the application.
- * This mock data represents calendar events and is used to initialize the application's state.
- */
 /**
  * Initial calendar entries for the application.
  * This mock data represents calendar events and is used to initialize the application's state.
@@ -77,7 +49,7 @@ const initialCalendarData: CalendarEntry[] = [
   { id: '4', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '620 Grades Exam Grades Posted', description: '13/25', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
   { id: '5', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '777 Announcement', description: 'Hello guys', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
   { id: '6', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '777 Assignment', description: 'Goodbye guys', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
-];
+
 
 /**
  * Defines the structure of the DataContext, including state and functions
@@ -113,12 +85,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
  *
  * @param children - The child components that will consume the context.
  */
-/**
- * DataProvider Component
- * Wraps the application and provides user and calendar data via context.
- *
- * @param children - The child components that will consume the context.
- */
+
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   /**
    * State to hold the list of users.
@@ -132,7 +99,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
    * Initialized with the first user in initialUserData or null.
    */
   const [currentUser, setCurrentUser] = useState<User | null>(initialUserData[0]);
-
+    
   /**
    * Adds a new calendar entry to the calendarData state.
    *
@@ -144,6 +111,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
    * Implements the addCalendarEntry function to add a new calendar entry to the calendarData state.
    * @param entry - The CalendarEntry to add.
    */
+
   const addCalendarEntry = (entry: CalendarEntry) => {
     setCalendarData((prevData) => [...prevData, entry]);
   };
@@ -175,7 +143,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData([...calendarData]);
 
     // Trigger push notification (this is a placeholder, replace with actual push notification logic)
-    // console.log(`Push Notification for ${currentUserId}: ${message}`)
     // console.log(`Push Notification for ${currentUserId}: ${message}`)
     await sendPushNotification('Calendar Notification', message);
   };
@@ -318,6 +285,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         removeCalendarEntry,
         completeCalendarEntry,
         uncompleteCalendarEntry
+
       }}
     >
       {children}
@@ -325,12 +293,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-/**
- * Custom hook to use the DataContext.
- *
- * @returns The DataContext value.
- * @throws Error if used outside of a DataProvider.
- */
 /**
  * Custom hook to use the DataContext.
  *
