@@ -15,11 +15,11 @@ console.warn = (message, ...args) => {
 
 // Request permission for notifications
 export const requestUserPermission = async () => {
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  const { status: existingStatus } = (await Notifications.getPermissionsAsync()) || {};
   let finalStatus = existingStatus;
 
   if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync();
+    const { status } = (await Notifications.requestPermissionsAsync()) || {};
     finalStatus = status;
   }
 
@@ -41,7 +41,7 @@ export const requestUserPermission = async () => {
   const token = (await Notifications.getExpoPushTokenAsync({
     // projectId: Constants.expoConfig?.extra?.eas?.projectId,
   })).data;
-  console.log(token);
+  // console.log(token);
   return token;
 };
 

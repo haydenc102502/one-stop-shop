@@ -10,6 +10,7 @@ export interface User {
   phone: string;
   email: string;
   role: UserRole;
+  password: string;
 }
 
 export interface CalendarEntry {
@@ -22,3 +23,9 @@ export interface CalendarEntry {
   calendarEntryCategory: CalendarEntryCategory;
   pushNotified: boolean;
 }
+
+export type RootStackParamList = {
+  login: undefined;
+  register: undefined;
+  calendar: undefined;
+};

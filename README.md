@@ -173,15 +173,30 @@ To set up the development environment for the One Stop Shop application, follow 
     cd /path/to/OneStopShop
     ```
 
-2. **Start the application**:
+2. **Install dependencies**:
+
+    ```bash
+    npm install
+    ```
+
+3. **Start the application**:
 
     ```bash
     npx expo start
     ```
 
-3. **Run the app**:
+4. **Run the app**:
     - Press `i` to run on an iOS simulator (only available on macOS).
     - Press `a` to run on an Android emulator (requires Android Studio).
+
+5. **Run Unit Tests**:
+
+    ```bash
+    npm run test
+    ```
+
+    - Press `q` to quit the tests.
+    - Press `Enter` to rerun the tests.
 
 For more detailed instructions, refer to the [Expo documentation](https://docs.expo.dev/get-started/start-developing/).
 

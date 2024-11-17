@@ -25,7 +25,7 @@ function HeaderRightProfileButton() {
       <Pressable>
         {({ pressed }) => (
           <FontAwesome
-            name="user" 
+            name="user"
             size={25}
             color={Colors[colorScheme ?? 'light'].text}
             style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}

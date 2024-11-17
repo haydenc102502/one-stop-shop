@@ -1,3 +1,5 @@
+// dataContext.tsx
+
 /**
  * Centralized Data Store and State Management for calendarData and users. 
  * This ensures that when any component updates calendarData, all components that use the context
@@ -11,14 +13,35 @@ import { UserRole } from './userRole';
 import { CalendarEntryCategory } from './calendarEntryCategory';
 import { sendPushNotification, setupNotificationChannel, requestUserPermission } from '@/services/notificationService';
 
-// Initial User data
+/**
+ * Initial user data for the application.
+ * This mock data represents the users and is used to initialize the application's state.
+ */
 const initialUserData: User[] = [
-  { userId: 'as1899', name: 'Alice', secondName: 'Smith', phone: '555-1234', email: 'alice@example.com', role: UserRole.STUDENT },
-  { userId: 'bj1234', name: 'Bob', secondName: 'Johnson', phone: '555-5678', email: 'bobjohnson@example.com', role: UserRole.FACULTY },
+  {
+    userId: 'as1899',
+    name: 'Alice',
+    secondName: 'Smith',
+    phone: '555-1234',
+    email: 'alice@example.com',
+    role: UserRole.STUDENT,
+    password: 'password',
+  },
+  {
+    userId: 'bj1234',
+    name: 'Bob',
+    secondName: 'Johnson',
+    phone: '555-5678',
+    email: 'bobjohnson@example.com',
+    role: UserRole.FACULTY,
+    password: 'password',
+  },
 ];
 
-// Initial Calendar data
-// Initial Calendar data as an array of CalendarEntry objects
+/**
+ * Initial calendar entries for the application.
+ * This mock data represents calendar events and is used to initialize the application's state.
+ */
 const initialCalendarData: CalendarEntry[] = [
   { id: '1', userId: 'as1899', day: '2024-10-28', time: '10:00 AM', title: '746 Grades Exam Grades Posted', description: '25/25', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
   { id: '2', userId: 'as1899', day: '2024-10-29', time: '10:00 AM', title: 'SWEN 444 class canceled', description: 'Class cancelled sorry lmao', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
@@ -28,28 +51,59 @@ const initialCalendarData: CalendarEntry[] = [
   { id: '6', userId: 'as1889', day: '2024-11-12', time: '10:00 AM', title: '777 Assignment', description: 'Goodbye guys', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
 ];
 
-// Define context types
+/**
+ * Defines the structure of the DataContext, including state and functions
+ * that are provided to consuming components.
+ */
 interface DataContextType {
   users: User[];
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
   currentUserId: string | null;
-  setCurrentUserId: (user: string) => void;
-  calendarData: CalendarEntry[];  // Change from Record<string, CalendarEntry[]>
+  setCurrentUserId: (userId: string) => void;
+  calendarData: CalendarEntry[];
   addCalendarEntry: (entry: CalendarEntry) => void;
   getEntriesByUserId: (userId: string) => CalendarEntry[];
   sendPushNotifications: () => void;
+  addUser: (user: User) => boolean;
+  getUsers: () => User[];
+  authenticateUser: (email: string, password: string) => boolean;
+  userExists: (email: string) => boolean;
   updateCalendarEntry: (id: string, updatedData: Partial<CalendarEntry>) => void;
   removeCalendarEntry: (id: string) => void;
   completeCalendarEntry: (id: string) => void;
   uncompleteCalendarEntry: (id: string) => void;
 }
 
-
-// Context for data store and functions
+// Create the DataContext with an undefined initial value.
+// This context will be used by components to access and manipulate user and calendar data.
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-export const DataProvider: React.FC = ({ children }) => {
+/**
+ * DataProvider Component
+ * Wraps the application and provides user and calendar data via context.
+ *
+ * @param children - The child components that will consume the context.
+ */
+export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  /**
+   * State to hold the list of users.
+   * Initialized with initialUserData.
+   */
   const [users, setUsers] = useState<User[]>(initialUserData);
   const [calendarData, setCalendarData] = useState<CalendarEntry[]>(initialCalendarData);
+
+  /**
+   * State to hold the currently authenticated user.
+   * Initialized with the first user in initialUserData or null.
+   */
+  const [currentUser, setCurrentUser] = useState<User | null>(initialUserData[0]);
+
+  /**
+   * Adds a new calendar entry to the calendarData state.
+   *
+   * @param entry - The CalendarEntry to add.
+   */
   const [currentUserId, setCurrentUserId] = useState<string | null>('as1899'); // Initialize with null or a default user
 
   // Add a new entry to the calendar
@@ -57,10 +111,16 @@ export const DataProvider: React.FC = ({ children }) => {
     setCalendarData((prevData) => [...prevData, entry]);
   };
 
+  /**
+   * Retrieves all calendar entries for a specific user.
+   *
+   * @param userId - The user ID to filter entries by.
+   * @returns An array of CalendarEntry objects for the user.
+   */
   const getEntriesByUserId = (userId: string) => {
     return calendarData.filter((entry) => entry.userId === userId);
   };
-
+  
   const sendPushNotifications = async () => {
     if (!currentUserId) return;
 
@@ -72,7 +132,7 @@ export const DataProvider: React.FC = ({ children }) => {
     setCalendarData([...calendarData]);
 
     // Trigger push notification (this is a placeholder, replace with actual push notification logic)
-    console.log(`Push Notification for ${currentUserId}: ${message}`);
+    // console.log(`Push Notification for ${currentUserId}: ${message}`)
     await sendPushNotification('Calendar Notification', message);
   };
 
@@ -105,13 +165,107 @@ export const DataProvider: React.FC = ({ children }) => {
     );
   };
 
+  /**
+   * Adds a new user to the users state if the email does not already exist.
+   *
+   * @param user - The User to add.
+   * @returns True if the user was added, false if the email already exists.
+   */
+  const addUser = (user: User): boolean => {
+    const userExists = users.some((existingUser) => existingUser.email === user.email);
+    if (userExists) {
+      return false; // Email already exists
+    }
+
+    setUsers((prevUsers) => {
+      const updatedUsers = [...prevUsers, user];
+      // console.log('Updated Users:', updatedUsers);
+      return updatedUsers;
+    });
+
+    return true;
+  };
+
+  /**
+   * Authenticates a user by email and password.
+   * If authentication is successful, sets the currentUser state.
+   *
+   * @param email - The user's email.
+   * @param password - The user's password.
+   * @returns True if authentication is successful, false otherwise.
+   */
+  const authenticateUser = (email: string, password: string): boolean => {
+    const user = users.find((user) => user.email === email && user.password === password);
+    if (user) {
+      setCurrentUser(user);
+      return true;
+    }
+    return false;
+  };
+
+  /**
+   * Retrieves the list of all users.
+   *
+   * @returns An array of User objects.
+   */
+  const getUsers = (): User[] => {
+    return users;
+  };
+
+  /**
+   * Retrieves a user by their userId.
+   *
+   * @param userId - The user ID to search for.
+   * @returns The User object if found, undefined otherwise.
+   */
+  const getUserById = (userId: string): User | undefined => {
+    return users.find((user) => user.userId === userId);
+  };
+
+  /**
+   * Checks if a user with the given email already exists.
+   *
+   * @param email - The email to check.
+   * @returns True if the user exists, false otherwise.
+   */
+  const userExists = (email: string): boolean => {
+    return users.some((user) => user.email === email);
+  };
+
+  // Provide the context values to the child components.
   return (
-    <DataContext.Provider value={{ users, currentUserId, setCurrentUserId, calendarData, addCalendarEntry, getEntriesByUserId, sendPushNotifications, updateCalendarEntry, removeCalendarEntry, completeCalendarEntry, uncompleteCalendarEntry }}>
+    <DataContext.Provider
+      value={{
+        users,
+        currentUserId: currentUserId,
+        setCurrentUserId,
+        calendarData,
+        addCalendarEntry,
+        getEntriesByUserId,
+        sendPushNotifications,
+        currentUser,
+        setCurrentUser,
+        addUser,
+        getUsers,
+        authenticateUser,
+        userExists,
+        updateCalendarEntry,
+        removeCalendarEntry,
+        completeCalendarEntry,
+        uncompleteCalendarEntry
+      }}
+    >
       {children}
     </DataContext.Provider>
   );
 };
 
+/**
+ * Custom hook to use the DataContext.
+ *
+ * @returns The DataContext value.
+ * @throws Error if used outside of a DataProvider.
+ */
 export const useDataContext = () => {
   const context = useContext(DataContext);
   if (!context) {
@@ -119,3 +273,4 @@ export const useDataContext = () => {
   }
   return context;
 };
+
