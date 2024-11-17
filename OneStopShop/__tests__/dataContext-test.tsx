@@ -5,6 +5,16 @@ import { DataProvider, useDataContext } from '@/data-store/dataContext';
 import { UserRole } from '@/data-store/userRole';
 import { CalendarEntryCategory } from '@/data-store/calendarEntryCategory';
 
+// Mock expo-notifications module
+jest.mock('expo-notifications', () => ({
+  getPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+  requestPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+  getExpoPushTokenAsync: jest.fn().mockResolvedValue({ data: 'mock-push-token' }),
+  setNotificationHandler: jest.fn(),
+  scheduleNotificationAsync: jest.fn(),
+  setNotificationChannelAsync: jest.fn(),
+}));
+
 /**
  * TestComponent is a test component that uses the DataContext to display the count of users and calendar entries.
  * 
@@ -93,7 +103,7 @@ describe('DataContext', () => {
     );
 
     expect(getByTestId('user-count').props.children).toBe(2);
-    expect(getByTestId('calendar-count').props.children).toBe(4);
+    expect(getByTestId('calendar-count').props.children).toBe(6); // Updated count to match initial data
   });
 
   test('should authenticate a user with correct credentials', () => {
@@ -152,6 +162,6 @@ describe('DataContext', () => {
       </DataProvider>
     );
 
-    expect(getByTestId('calendar-count').props.children).toBe(5);
+    expect(getByTestId('calendar-count').props.children).toBe(7); // Updated count to match initial data
   });
 });

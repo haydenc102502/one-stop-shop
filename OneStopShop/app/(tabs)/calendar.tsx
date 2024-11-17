@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { Calendar, DateData } from 'react-native-calendars';
 import { useDataContext } from '@/data-store/dataContext';
@@ -15,7 +15,11 @@ const categoryColors = {
 export default function CalendarScreen() {
   const [selected, setSelected] = useState('');
   const [selectedDateDetails, setSelectedDateDetails] = useState<CalendarEntry[] | null>(null);
-  const { currentUser, calendarData } = useDataContext();
+  const { currentUser, calendarData, sendPushNotifications } = useDataContext();
+
+  useEffect(() => {
+    sendPushNotifications();
+  }, [calendarData]);
 
   // Convert `calendarData` to `markedDates` with color-coded dots for each category
   const markedDates = {} as Record<string, any>;
