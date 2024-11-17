@@ -5,6 +5,12 @@
 import React from 'react';
 import { render, fireEvent, within } from '@testing-library/react-native';
 import AgendaItem from '@/components/AgendaItem';
+import { Alert } from 'react-native';
+
+// Mock the Alert.alert function
+jest.spyOn(Alert, 'alert').mockImplementation((title, message, buttons) => {
+  buttons[1].onPress();
+});
 
 /* Test cases for the handleComplete function in the AgendaItem component. */
 describe('AgendaItem', () => {
@@ -143,5 +149,25 @@ describe('handleUpdate', () => {
     const durationInput = within(modal).getByPlaceholderText('Duration');
     fireEvent.changeText(durationInput, '2 hours');
     expect(durationInput.props.value).toBe('2 hours');
+  });
+});
+
+/* Test cases for remove agenda item */
+describe('removeAgendaItem', () => {
+  const item = {
+    id: '1',
+    day: '2024-10-29',
+    title: 'Test Event',
+    description: 'This is a test event',
+    completed: false,
+  };
+
+  it('should call onRemove when the "Remove" button is pressed', () => {
+    const onRemove = jest.fn();
+    const { getByText } = render(<AgendaItem item={item} onComplete={jest.fn()} onUpdate={jest.fn()} onRemove={onRemove} onUncomplete={jest.fn()} />);
+    
+    fireEvent.press(getByText('Remove'));
+    
+    expect(onRemove).toHaveBeenCalled();
   });
 });

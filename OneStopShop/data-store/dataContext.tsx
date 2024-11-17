@@ -43,12 +43,12 @@ const initialUserData: User[] = [
  * This mock data represents calendar events and is used to initialize the application's state.
  */
 const initialCalendarData: CalendarEntry[] = [
-  { id: '1', userId: 'as1899', day: '2024-10-28', time: '10:00 AM', title: '746 Grades Exam Grades Posted', description: '25/25', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
-  { id: '2', userId: 'as1899', day: '2024-10-29', time: '10:00 AM', title: 'SWEN 444 class canceled', description: 'Class cancelled sorry lmao', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
-  { id: '3', userId: 'as1899', day: '2024-10-29', time: '2:00 PM', title: '620 New Assignment', description: 'New assignment posted: Applying OO Principles 2', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
-  { id: '4', userId: 'as1889', day: '2024-11-12', time: '10:00 AM', title: '620 Grades Exam Grades Posted', description: '13/25', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
-  { id: '5', userId: 'as1889', day: '2024-11-12', time: '10:00 AM', title: '777 Announcement', description: 'Hello guys', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
-  { id: '6', userId: 'as1889', day: '2024-11-12', time: '10:00 AM', title: '777 Assignment', description: 'Goodbye guys', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
+  { id: '1', userId: 'as1899', day: '2024-11-17', time: '10:00 AM', title: '746 Grades Exam Grades Posted', description: '25/25', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '2', userId: 'as1899', day: '2024-11-17', time: '10:00 AM', title: 'SWEN 444 class canceled', description: 'Class cancelled sorry lmao', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '3', userId: 'as1899', day: '2024-11-18', time: '2:00 PM', title: '620 New Assignment', description: 'New assignment posted: Applying OO Principles 2', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
+  { id: '4', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '620 Grades Exam Grades Posted', description: '13/25', calendarEntryCategory: CalendarEntryCategory.GRADES, pushNotified: false },
+  { id: '5', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '777 Announcement', description: 'Hello guys', calendarEntryCategory: CalendarEntryCategory.ANNOUNCEMENT, pushNotified: false },
+  { id: '6', userId: 'as1889', day: '2024-11-19', time: '10:00 AM', title: '777 Assignment', description: 'Goodbye guys', calendarEntryCategory: CalendarEntryCategory.ASSIGNMENT, pushNotified: false },
 ];
 
 /**
@@ -106,7 +106,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
    */
   const [currentUserId, setCurrentUserId] = useState<string | null>('as1899'); // Initialize with null or a default user
 
-  // Add a new entry to the calendar
+  /**
+   * Implements the addCalendarEntry function to add a new calendar entry to the calendarData state.
+   * @param entry - The CalendarEntry to add.
+   */
   const addCalendarEntry = (entry: CalendarEntry) => {
     setCalendarData((prevData) => [...prevData, entry]);
   };
@@ -121,6 +124,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return calendarData.filter((entry) => entry.userId === userId);
   };
   
+  /**
+   * Sends push notifications for calendar entries that have not been notified yet.
+   * This function is called whenever the calendarData state changes.
+   * It filters the calendar entries by the current user and sends a push notification for each entry.
+   * The pushNotified flag is set to true after sending the notification.
+   */
   const sendPushNotifications = async () => {
     if (!currentUserId) return;
 
@@ -136,12 +145,20 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await sendPushNotification('Calendar Notification', message);
   };
 
+  /**
+   * UseEffect hook to send push notifications whenever the calendarData state changes.
+   */
   useEffect(() => {
     requestUserPermission();
     setupNotificationChannel();
     sendPushNotifications();
   }, [calendarData]);
 
+  /**
+   * Updates a calendar entry with new data
+   * @param id passed in to find the entry to update
+   * @param updatedData new data to update the entry with
+   */
   const updateCalendarEntry = (id: string, updatedData: Partial<CalendarEntry>) => {
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, ...updatedData } : entry))
@@ -149,16 +166,29 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     console.log('Updated calendar entry:', id, updatedData);
   };
 
+  /**
+   * Removes a calendar entry from the calendarData state.
+   * @param id - The ID of the entry
+   */
   const removeCalendarEntry = (id: string) => {
     setCalendarData((prevData) => prevData.filter((entry) => entry.id !== id));
   };
 
+  /**
+   * Marks a calendar entry as completed.
+   * @param id - The ID of the entry
+   * @param completedTime - The time the entry was completed
+   */
   const completeCalendarEntry = (id: string, completedTime: string) => {
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, completed: true, completedTime } : entry))
     );
   };
 
+  /**
+   * Marks a calendar entry as uncompleted.
+   * @param id - The ID of the entry
+   */
   const uncompleteCalendarEntry = (id: string) => {
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, completed: false } : entry))
