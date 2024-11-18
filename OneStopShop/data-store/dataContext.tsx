@@ -284,8 +284,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updateCalendarEntry,
         removeCalendarEntry,
         completeCalendarEntry,
-        uncompleteCalendarEntry
-
+        uncompleteCalendarEntry,
+        getUserById,
+        getEntriesByUserId
       }}
     >
       {children}
