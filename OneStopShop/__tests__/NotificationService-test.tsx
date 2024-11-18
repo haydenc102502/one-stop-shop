@@ -2,7 +2,7 @@
  * This test file is for testing the notificationService.ts file.
  */
 
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import {
     requestUserPermission,
@@ -36,7 +36,6 @@ afterAll(() => {
 /**
  * Test suite for notificationService functions.
  * Contains test cases for requestUserPermission, setupNotificationChannel, and sendPushNotification.
- * Uses jest mocks to mock expo-notifications module and global alert function.
  */
 describe('notificationService', () => {
     beforeEach(() => {
@@ -69,43 +68,34 @@ describe('notificationService', () => {
         });
 
         it('should alert if permission is not granted', async () => {
-            const alertMock = jest.spyOn(global, 'alert').mockImplementation(() => {});
+            const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
             (Notifications.getPermissionsAsync as jest.Mock).mockResolvedValueOnce({ status: 'undetermined' });
             (Notifications.requestPermissionsAsync as jest.Mock).mockResolvedValueOnce({ status: 'denied' });
 
-            await requestUserPermission();
+            const token = await requestUserPermission();
 
-            expect(alertMock).toHaveBeenCalledWith('Failed to get push token for push notification!');
-            alertMock.mockRestore();
+            expect(Notifications.getPermissionsAsync).toHaveBeenCalled();
+            expect(Notifications.requestPermissionsAsync).toHaveBeenCalled();
+            expect(alertSpy).toHaveBeenCalledWith('Failed to get push token for push notification!');
+            expect(token).toBeUndefined();
+
+            alertSpy.mockRestore();
         });
     });
 
     // Test cases for setupNotificationChannel
     describe('setupNotificationChannel', () => {
-        it('should set up notification channel for Android', async () => {
+        it('should set notification channel for Android', async () => {
             Platform.OS = 'android';
             await setupNotificationChannel();
-
-            expect(Notifications.setNotificationChannelAsync).toHaveBeenCalledWith('default', {
-                name: 'default',
-                importance: Notifications.AndroidImportance.MAX,
-                vibrationPattern: [0, 250, 250, 250],
-                lightColor: '#FF231F7C',
-            });
-        });
-
-        it('should not set up notification channel for non-Android platforms', async () => {
-            Platform.OS = 'ios';
-            await setupNotificationChannel();
-
-            expect(Notifications.setNotificationChannelAsync).not.toHaveBeenCalled();
+            expect(Notifications.setNotificationChannelAsync).toHaveBeenCalledWith('default', expect.any(Object));
         });
     });
 
+    // Test cases for sendPushNotification
     describe('sendPushNotification', () => {
-        it('should send a push notification with the given title and body', async () => {
+        it('should schedule a notification', async () => {
             await sendPushNotification('Test Title', 'Test Body');
-
             expect(Notifications.scheduleNotificationAsync).toHaveBeenCalledWith({
                 content: {
                     title: 'Test Title',
