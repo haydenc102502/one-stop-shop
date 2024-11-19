@@ -50,7 +50,6 @@ function CalendarScreen() {
   // Render the calendar screen
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Current User ID: {currentUser?.userId}</Text>
       <View style={[styles.separator, { backgroundColor: '#eee' }]} />
 
       {/* Calendar Component */}
