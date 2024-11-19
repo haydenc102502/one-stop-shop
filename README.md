@@ -170,7 +170,7 @@ To set up the development environment for the One Stop Shop application, follow 
 1. **Navigate to the project directory**:
 
     ```bash
-    cd /path/to/OneStopShop
+    cd OneStopShop
     ```
 
 2. **Install dependencies**:

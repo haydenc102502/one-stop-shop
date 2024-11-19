@@ -10,9 +10,10 @@ const categoryColors = {
   [CalendarEntryCategory.GRADES]: 'red',
   [CalendarEntryCategory.ANNOUNCEMENT]: 'yellow',
   [CalendarEntryCategory.ASSIGNMENT]: 'green',
+  completed: 'gray',
 };
 
-export default function CalendarScreen() {
+function CalendarScreen() {
   const [selected, setSelected] = useState('');
   const [selectedDateDetails, setSelectedDateDetails] = useState<CalendarEntry[] | null>(null);
   const { currentUser, calendarData, sendPushNotifications } = useDataContext();
@@ -21,7 +22,12 @@ export default function CalendarScreen() {
     sendPushNotifications();
   }, [calendarData]);
 
-  // Convert `calendarData` to `markedDates` with color-coded dots for each category
+  /**
+   * Convert calendarData to markedDates with color-coded dots for each category
+   * @param calendarData the array of calendar entries to be converted
+   * @returns an object with date strings as keys and an array of dots as values
+   * green for assignments, red for grades, yellow for announcements, gray for completed
+   */
   const markedDates = {} as Record<string, any>;
   calendarData.forEach((entry) => {
     if (!markedDates[entry.day]) {
@@ -29,7 +35,7 @@ export default function CalendarScreen() {
     }
     markedDates[entry.day].dots.push({
       key: `${entry.day}-${markedDates[entry.day].dots.length}`,
-      color: categoryColors[entry.calendarEntryCategory] || 'blue', // Default color if not matched
+      color: entry.completed ? categoryColors.completed : categoryColors[entry.calendarEntryCategory] || 'blue',
     });
   });
 
@@ -41,6 +47,7 @@ export default function CalendarScreen() {
     setSelectedDateDetails(dateEntries.length > 0 ? dateEntries : null);
   };
 
+  // Render the calendar screen
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Current User ID: {currentUser?.userId}</Text>
@@ -59,7 +66,7 @@ export default function CalendarScreen() {
               selectedColor: 'orange',
             },
           }}
-          markingType={'multi-dot'} // Allows for multiple dots
+          markingType={'multi-dot'}
           style={styles.calendar}
         />
       </View>
@@ -83,6 +90,8 @@ export default function CalendarScreen() {
     </View>
   );
 }
+
+export default CalendarScreen;
 
 const styles = StyleSheet.create({
   container: {

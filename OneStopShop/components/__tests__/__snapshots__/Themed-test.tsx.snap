@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Themed components Text component renders correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000",
+      },
+      undefined,
+    ]
+  }
+>
+  Snapshot test for Text!
+</Text>
+`;
+
+exports[`Themed components View component renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#fff",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#000",
+        },
+        undefined,
+      ]
+    }
+  >
+    Snapshot test for View!
+  </Text>
+</View>
+`;
