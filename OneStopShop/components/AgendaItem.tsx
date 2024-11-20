@@ -111,79 +111,92 @@ const AgendaItem = (props: ItemProps) => {
       <View style={styles.itemButtonContainer}>
         {item.completed ? (
           <>
-            <Button color={'grey'} title={'Uncomplete'} onPress={onUncomplete} />
-            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+            <TouchableOpacity style={styles.button} onPress={onUncomplete}>
+              <Text style={styles.buttonText}>Uncomplete</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={onRemove}>
+              <Text style={styles.buttonText}>Remove</Text>
+            </TouchableOpacity>
           </>
         ) : (
           <>
-            <Button color={'grey'} title={'Complete'} onPress={handleComplete} />
-            <Button color={'grey'} title={'Update'} onPress={() => setModalVisible(true)} />
-            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+            <TouchableOpacity style={styles.button} onPress={handleComplete}>
+              <Text style={styles.buttonText}>Complete</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+              <Text style={styles.buttonText}>Update</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={onRemove}>
+              <Text style={styles.buttonText}>Remove</Text>
+            </TouchableOpacity>
           </>
         )}
-        </View>
+      </View>
 
-      {/* Modal to update the task */}
       <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-          testID="modal-container"
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>Update Task</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Title"
-                value={updatedTitle}
-                onChangeText={setUpdatedTitle}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Description"
-                value={updatedDescription}
-                onChangeText={setUpdatedDescription}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Day (e.g., 2024-10-29)"
-                value={updatedDay}
-                onChangeText={setUpdatedDay}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Hour"
-                value={updatedHour}
-                onChangeText={setUpdatedHour}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Duration"
-                value={updatedDuration}
-                onChangeText={setUpdatedDuration}
-              />
-              <View style={styles.categoryRow}>
-                {Object.values(CalendarEntryCategory).map((cat) => (
-                  <TouchableOpacity
-                    key={cat}
-                    style={[styles.categoryButton, updatedCategory === cat && styles.selectedCategoryButton]}
-                    onPress={() => setUpdatedCategory(cat)}
-                  >
-                    <Text style={updatedCategory === cat ? styles.selectedCategoryText : styles.categoryText}>
-                      {cat}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View style={styles.modalButtonContainer}>
-                <Button title="Cancel" onPress={() => setModalVisible(false)} color="gray" />
-                <Button title="Update" onPress={handleUpdate} color="#F76902" />
-              </View>
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+        testID="modal-container"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Update Task</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Title"
+              value={updatedTitle}
+              onChangeText={setUpdatedTitle}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Description"
+              value={updatedDescription}
+              onChangeText={setUpdatedDescription}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Day (e.g., 2024-10-29)"
+              value={updatedDay}
+              onChangeText={setUpdatedDay}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Hour"
+              value={updatedHour}
+              onChangeText={setUpdatedHour}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Duration"
+              value={updatedDuration}
+              onChangeText={setUpdatedDuration}
+            />
+            <View style={styles.categoryRow}>
+              {Object.values(CalendarEntryCategory).map((cat) => (
+                <TouchableOpacity
+                  key={cat}
+                  style={[styles.categoryButton, updatedCategory === cat && styles.selectedCategoryButton]}
+                  onPress={() => setUpdatedCategory(cat)}
+                >
+                  <Text style={updatedCategory === cat ? styles.selectedCategoryText : styles.categoryText}>
+                    {cat}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity style={styles.modalButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButton} onPress={handleUpdate}>
+                <Text style={styles.modalButtonText}>Update</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </View>
+      </Modal>
     </TouchableOpacity>
   );
 };
@@ -239,6 +252,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
+  button: {
+    backgroundColor: '#F76902',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginHorizontal: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   emptyItem: {
     paddingLeft: 20,
     height: 52,
@@ -282,6 +307,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
   },
+  modalButton: {
+    backgroundColor: '#F76902',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginHorizontal: 5,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   categoryRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -295,11 +332,14 @@ const styles = StyleSheet.create({
   },
   selectedCategoryButton: {
     backgroundColor: '#F76902',
+    borderColor: '#F76902',
   },
   categoryText: {
-    color: '#000',
+    color: 'black',
+    fontWeight: 'bold',
   },
   selectedCategoryText: {
-    color: '#fff',
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
