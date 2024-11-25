@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Alert, View, Text, TouchableOpacity, Button, Modal, TextInput } from 'react-native';
 import { CalendarEntryCategory } from '@/data-store/calendarEntryCategory';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // Explicitly type the isEmpty function to accept any object or undefined
 const isEmpty = (obj: Record<string, unknown> | undefined | null): boolean => {
@@ -81,6 +82,24 @@ const AgendaItem = (props: ItemProps) => {
     return description.length > 10 ? `${description.substring(0, 10)}...` : description;
   };
 
+  /**
+   * Get the icon name based on the category of the task
+   * @param category the category of the task
+   * @returns the icon name based on the category
+   */
+  const getIconName = (category: CalendarEntryCategory | undefined) => {
+    switch (category) {
+      case CalendarEntryCategory.ANNOUNCEMENT:
+        return 'bullhorn';
+      case CalendarEntryCategory.GRADES:
+        return 'calculator';
+      case CalendarEntryCategory.ASSIGNMENT:
+        return 'newspaper-o';
+      default:
+        return 'calendar';
+    }
+  };
+
   /* If the item is empty, return a view with a message saying 'No Events Planned Today' */
   if (isEmpty(item)) {
     return (
@@ -94,14 +113,17 @@ const AgendaItem = (props: ItemProps) => {
   return (
     <TouchableOpacity onPress={handlePress} style={[styles.item, item.completed ? styles.completedItem : styles.uncompletedItem]}>
       <View style={styles.itemHeader}>
-        <Text style={styles.itemTitleText}>{item.title}</Text>
-        <View>
+        <View style={styles.iconContainer}>
+          <Icon name={getIconName(item.calendarEntryCategory)} size={24} color="#F76902" />
+        </View>
+        <View style={styles.itemDetails}>
+          <Text style={styles.itemTitleText}>{item.title}</Text>
+          <Text style={styles.itemDescriptionText}>{truncateDescription(item.description)}</Text>
+        </View>
+        <View style={styles.itemTimeContainer}>
           <Text style={styles.itemHourText}>{item.time}</Text>
           <Text style={styles.itemDurationText}>{item.duration}</Text>
         </View>
-      </View>
-      <View>
-        <Text style={styles.itemDescriptionText}>{truncateDescription(item.description)}</Text>
       </View>
       {item.completed && (
         <View>
@@ -219,8 +241,17 @@ const styles = StyleSheet.create({
   },
   itemHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    marginRight: 10,
+  },
+  itemDetails: {
+    flex: 1,
+  },
+  itemTimeContainer: {
+    alignItems: 'flex-end',
   },
   itemHourText: {
     color: 'grey',
