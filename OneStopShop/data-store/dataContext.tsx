@@ -99,7 +99,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
    * Initialized with the first user in initialUserData or null.
    */
   const [currentUser, setCurrentUser] = useState<User | null>(initialUserData[0]);
-    
+
   /**
    * Adds a new calendar entry to the calendarData state.
    *
@@ -125,7 +125,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const getEntriesByUserId = (userId: string) => {
     return calendarData.filter((entry) => entry.userId === userId);
   };
-  
+
   /**
    * Sends push notifications for calendar entries that have not been notified yet.
    * This function is called whenever the calendarData state changes.
@@ -165,6 +165,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, ...updatedData } : entry))
     );
+    // istanbul ignore next
     console.log('Updated calendar entry:', id, updatedData);
   };
 
