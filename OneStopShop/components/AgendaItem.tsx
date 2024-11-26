@@ -285,10 +285,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#F76902',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 5, // Reduced from 10 to 5
+    paddingHorizontal: 10, // Reduced from 20 to 10
     borderRadius: 8,
     marginHorizontal: 5,
+    borderWidth: 1, // Added border width
+    borderColor: 'black', // Added border color
   },
   buttonText: {
     color: 'white',
@@ -340,10 +342,12 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     backgroundColor: '#F76902',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 5, // Reduced from 10 to 5
+    paddingHorizontal: 10, // Reduced from 20 to 10
     borderRadius: 8,
     marginHorizontal: 5,
+    borderWidth: 1, // Added border width
+    borderColor: 'black', // Added border color
   },
   modalButtonText: {
     color: 'white',
@@ -356,7 +360,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   categoryButton: {
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ccc',
