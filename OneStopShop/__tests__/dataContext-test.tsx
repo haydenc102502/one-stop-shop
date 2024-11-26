@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import { DataProvider, useDataContext } from '@/data-store/dataContext';
 import { UserRole } from '@/data-store/userRole';
 import { CalendarEntryCategory } from '@/data-store/calendarEntryCategory';
+import { CalendarEntry } from '@/data-store/types';
 
 // Mock expo-notifications module
 jest.mock('expo-notifications', () => ({
@@ -101,6 +102,26 @@ const AddCalendarEntryTestComponent = ({ entry }: { entry: any }) => {
   }, [entry]);
 
   return <Text testID="calendar-count">{calendarData.length}</Text>;
+};
+
+/**
+ * UpdateCalendarEntryTestComponent is a test component that uses the DataContext to update a calendar entry.
+ * 
+ * @param id - The ID of the calendar entry to update.
+ * @param updatedData - The new data to update the entry with.
+ * 
+ * @returns A Text component displaying the updated title of the calendar entry.
+ */
+const UpdateCalendarEntryTestComponent = ({ id, updatedData }: { id: string; updatedData: Partial<CalendarEntry> }) => {
+  const { updateCalendarEntry, calendarData } = useDataContext();
+
+  useEffect(() => {
+    updateCalendarEntry(id, updatedData);
+  }, [id, updatedData]);
+
+  const updatedEntry = calendarData.find(entry => entry.id === id);
+
+  return <Text testID="updated-entry-title">{updatedEntry?.title}</Text>;
 };
 
 /**
@@ -284,6 +305,18 @@ describe('DataContext', () => {
     );
 
     expect(getByTestId('calendar-count').props.children).toBe(7); // Updated count to match initial data
+  });
+
+  test('should update a calendar entry', () => {
+    const updatedData = { title: 'Updated Title' };
+
+    const { getByTestId } = render(
+      <DataProvider>
+        <UpdateCalendarEntryTestComponent id="1" updatedData={updatedData} />
+      </DataProvider>
+    );
+
+    expect(getByTestId('updated-entry-title').props.children).toBe('Updated Title');
   });
 
   test('should retrieve all users', () => {

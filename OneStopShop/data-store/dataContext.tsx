@@ -67,6 +67,7 @@ interface DataContextType {
   sendPushNotifications: () => void;
   addUser: (user: User) => boolean;
   getUsers: () => User[];
+  getUserById: (userId: string) => User
   authenticateUser: (email: string, password: string) => boolean;
   userExists: (email: string) => boolean;
   updateCalendarEntry: (id: string, updatedData: Partial<CalendarEntry>) => void;
