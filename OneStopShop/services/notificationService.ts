@@ -48,6 +48,7 @@ export const setupNotificationChannel = async () => {
   }
 };
 
+// istanbul ignore next
 // Set notification handler
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

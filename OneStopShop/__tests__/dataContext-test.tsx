@@ -125,6 +125,23 @@ const UpdateCalendarEntryTestComponent = ({ id, updatedData }: { id: string; upd
 };
 
 /**
+ * RemoveCalendarEntryTestComponent is a test component that uses the DataContext to remove a calendar entry.
+ * 
+ * @param id - The ID of the calendar entry to remove.
+ * 
+ * @returns A Text component displaying the updated count of calendar entries.
+ */
+const RemoveCalendarEntryTestComponent = ({ id }: { id: string }) => {
+  const { removeCalendarEntry, calendarData } = useDataContext();
+
+  useEffect(() => {
+    removeCalendarEntry(id);
+  }, [id]);
+
+  return <Text testID="calendar-count">{calendarData.length}</Text>;
+};
+
+/**
  * GetUsersTestComponent is a test component that uses the DataContext to retrieve all users.
  * 
  * @returns A Text component displaying the count of users.
@@ -204,6 +221,45 @@ const SendPushNotificationsTestComponent = () => {
   const notifiedCount = calendarData.filter(entry => entry.pushNotified).length;
 
   return <Text testID="push-notified-count">{notifiedCount}</Text>;
+};
+
+/**
+ * CompleteCalendarEntryTestComponent is a test component that uses the DataContext to mark a calendar entry as completed.
+ * 
+ * @param id - The ID of the calendar entry to complete.
+ * @param completedTime - The time the entry was completed.
+ * 
+ * @returns A Text component displaying whether the entry is completed.
+ */
+const CompleteCalendarEntryTestComponent = ({ id, completedTime }: { id: string; completedTime: string }) => {
+  const { completeCalendarEntry, calendarData } = useDataContext();
+
+  useEffect(() => {
+    completeCalendarEntry(id, completedTime);
+  }, [id, completedTime]);
+
+  const completedEntry = calendarData.find(entry => entry.id === id);
+
+  return <Text testID="completed-entry">{completedEntry?.completed ? 'true' : 'false'}</Text>;
+};
+
+/**
+ * UncompleteCalendarEntryTestComponent is a test component that uses the DataContext to mark a calendar entry as uncompleted.
+ * 
+ * @param id - The ID of the calendar entry to uncomplete.
+ * 
+ * @returns A Text component displaying whether the entry is completed.
+ */
+const UncompleteCalendarEntryTestComponent = ({ id }: { id: string }) => {
+  const { uncompleteCalendarEntry, calendarData } = useDataContext();
+
+  useEffect(() => {
+    uncompleteCalendarEntry(id);
+  }, [id]);
+
+  const uncompletedEntry = calendarData.find(entry => entry.id === id);
+
+  return <Text testID="uncompleted-entry">{uncompletedEntry?.completed ? 'true' : 'false'}</Text>;
 };
 
 /**
@@ -319,6 +375,16 @@ describe('DataContext', () => {
     expect(getByTestId('updated-entry-title').props.children).toBe('Updated Title');
   });
 
+  test('should remove a calendar entry', () => {
+    const { getByTestId } = render(
+      <DataProvider>
+        <RemoveCalendarEntryTestComponent id="1" />
+      </DataProvider>
+    );
+
+    expect(getByTestId('calendar-count').props.children).toBe(5);
+  });
+
   test('should retrieve all users', () => {
     const { getByTestId } = render(
       <DataProvider>
@@ -400,5 +466,25 @@ describe('DataContext', () => {
     await findByTestId('push-notified-count');
 
     expect(getByTestId('push-notified-count').props.children).toBeGreaterThan(0);
+  });
+
+  test('should complete a calendar entry', () => {
+    const { getByTestId } = render(
+      <DataProvider>
+        <CompleteCalendarEntryTestComponent id="1" completedTime="2024-11-20 10:00 AM" />
+      </DataProvider>
+    );
+
+    expect(getByTestId('completed-entry').props.children).toBe('true');
+  });
+
+  test('should uncomplete a calendar entry', () => {
+    const { getByTestId } = render(
+      <DataProvider>
+        <UncompleteCalendarEntryTestComponent id="1" />
+      </DataProvider>
+    );
+
+    expect(getByTestId('uncompleted-entry').props.children).toBe('false');
   });
 });

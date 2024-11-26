@@ -72,7 +72,7 @@ interface DataContextType {
   userExists: (email: string) => boolean;
   updateCalendarEntry: (id: string, updatedData: Partial<CalendarEntry>) => void;
   removeCalendarEntry: (id: string) => void;
-  completeCalendarEntry: (id: string) => void;
+  completeCalendarEntry: (id: string, completedTime: string) => void;
   uncompleteCalendarEntry: (id: string) => void;
 }
 
@@ -296,6 +296,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
+// istanbul ignore next
 /**
  * Custom hook to use the DataContext.
  *
