@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Themed components Text component renders correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000",
+      },
+      undefined,
+    ]
+  }
+>
+  Snapshot test for Text!
+</Text>
+`;
+
+exports[`Themed components Text component uses default theme when useColorScheme returns null 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000",
+      },
+      undefined,
+    ]
+  }
+>
+  Test with default theme
+</Text>
+`;
+
+exports[`Themed components Text component uses light theme when useColorScheme returns light 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#000",
+      },
+      undefined,
+    ]
+  }
+>
+  Test with light theme
+</Text>
+`;
+
+exports[`Themed components Text component uses lightColor prop when provided 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "red",
+      },
+      undefined,
+    ]
+  }
+>
+  Test with lightColor
+</Text>
+`;
+
+exports[`Themed components View component renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#fff",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#000",
+        },
+        undefined,
+      ]
+    }
+  >
+    Snapshot test for View!
+  </Text>
+</View>
+`;
+
+exports[`Themed components View component uses darkColor prop when provided 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#fff",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#000",
+        },
+        undefined,
+      ]
+    }
+  >
+    Test with darkColor
+  </Text>
+</View>
+`;

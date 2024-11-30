@@ -14,11 +14,13 @@ export interface User {
 }
 
 export interface CalendarEntry {
+  id: string;
   userId: string;
+  day: string;
   time: string;
+  title: string;
   description: string;
   calendarEntryCategory: CalendarEntryCategory;
-  day: string;
   pushNotified: boolean;
 }
 

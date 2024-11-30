@@ -4,6 +4,15 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Platform, Alert } from 'react-native';
 
+// Suppress the warning about not specifying a projectId
+const originalWarn = console.warn;
+console.warn = (message, ...args) => {
+  if (typeof message === 'string' && message.includes('Calling getExpoPushTokenAsync without specifying a projectId is deprecated')) {
+    return;
+  }
+  originalWarn(message, ...args);
+};
+
 // Request permission for notifications
 export const requestUserPermission = async () => {
   const { status: existingStatus } = (await Notifications.getPermissionsAsync()) || {};
@@ -15,22 +24,12 @@ export const requestUserPermission = async () => {
   }
 
   if (finalStatus !== 'granted') {
-    alert('Failed to get push token for push notification!');
+    Alert.alert('Failed to get push token for push notification!');
     return;
   }
 
-  /** The warning  "WARN  Calling getExpoPushTokenAsync without specifying a projectId is deprecated and will no longer be supported in SDK 49+ "
-  * below is expected and stems from the following lines in this const.  They can be ignored because it stems from the fact that the `projectId` 
-  * is not defined in the `app.json` file.
-  * To resolve this warning, add the following to your `app.json` file however adding this is not necessary for the push notification to work and 
-  * adding this will create the need for an EAS account and Im not too sure if thats free or not.:
-    "extra": {
-      "eas": {
-        "projectId": "your-project-id"
-    } },
-  */
   const token = (await Notifications.getExpoPushTokenAsync({
-    projectId: Constants.expoConfig?.extra?.eas?.projectId,
+    // projectId: Constants.expoConfig?.extra?.eas?.projectId,
   })).data;
   // console.log(token);
   return token;
