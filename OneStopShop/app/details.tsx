@@ -3,6 +3,9 @@ import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
+/**
+ * Defines a course
+ */
 interface Course {
   id: string;
   title: string;
@@ -16,6 +19,7 @@ type CourseDetailsRouteProp = RouteProp<
 
 const Tab = createMaterialTopTabNavigator();
 
+
 const ContentScreen: React.FC = () => (
   <SafeAreaView style={styles.screenContainer}>
     <Text style={styles.text}>Content for the course will be displayed here.</Text>
@@ -28,12 +32,15 @@ const GradesScreen: React.FC = () => (
   </SafeAreaView>
 );
 
+/**
+ * Course details screen that has a course content and grades when clicking on a course.
+ * @returns TabNavigator object with two distinct course details- content and grades
+ */
 const CourseDetailsScreen: React.FC = () => {
   const route = useRoute<CourseDetailsRouteProp>();
   const navigation = useNavigation();
   const { course } = route.params;
 
-  // Dynamically set the header title to the course name
   useLayoutEffect(() => {
     navigation.setOptions({
       title: course.title,
@@ -44,28 +51,28 @@ const CourseDetailsScreen: React.FC = () => {
     <Tab.Navigator
       initialRouteName="Content"
       screenOptions={{
-        tabBarActiveTintColor: 'orange', // Set active tab text color to orange
+        tabBarActiveTintColor: 'orange',
         tabBarIndicatorStyle: {
-          backgroundColor: 'orange', // Set the active tab underline color to orange
+          backgroundColor: 'orange', 
         },
         tabBarLabelStyle: {
-          fontWeight: 'bold', // Make tab labels bold
-          fontSize: 14, // Adjust font size if needed
+          fontWeight: 'bold', 
+          fontSize: 14, 
         },
         tabBarStyle: {
-          backgroundColor: '#fff', // Background color for the tab bar
+          backgroundColor: '#fff', 
         },
       }}
     >
       <Tab.Screen
         name="Content"
         component={ContentScreen}
-        options={{ tabBarLabel: 'Content' }} // Explicitly define the label
+        options={{ tabBarLabel: 'Content' }} 
       />
       <Tab.Screen
         name="Grades"
         component={GradesScreen}
-        options={{ tabBarLabel: 'Grades' }} // Explicitly define the label
+        options={{ tabBarLabel: 'Grades' }} 
       />
     </Tab.Navigator>
   );
