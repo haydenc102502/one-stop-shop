@@ -9,31 +9,33 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Define the Course interface
 interface Course {
   id: string;
   title: string;
-  description: string;
 }
 
-// Mock data for courses
+/**
+ * Dummy courses for now- we don't have the power yet
+ */
 const courses: Course[] = [
-  { id: '1', title: 'Introduction to Software Engineering', description: 'Nothing to see here!' },
-  { id: '2', title: 'Analysis of Algorithms', description: 'Nothing to see here!' },
-  { id: '3', title: 'Model-Driven Development', description: 'Nothing to see here!' },
-  { id: '4', title: 'University Physics', description: 'Nothing to see here!' },
-  { id: '5', title: 'Software Testing', description: 'Nothing to see here!' },
+  { id: '1', title: 'Introduction to Software Engineering'},
+  { id: '2', title: 'Analysis of Algorithms' },
+  { id: '3', title: 'Model-Driven Development' },
+  { id: '4', title: 'University Physics'},
+  { id: '5', title: 'Software Testing'},
 ];
 
-// Array of colors for accenting courses
 const colors = ['#FF5733', '#33C1FF', '#28A745', '#FFC107', '#6F42C1'];
 
+/**
+ * Screen containing all of a student's courses
+ * @returns SafeAreaView of a list of student courses.
+ */
 const CourseScreen: React.FC = () => {
-  const navigation = useNavigation(); // Hook to navigate between screens
-
+  const navigation = useNavigation(); 
   // Render individual course items
   const renderCourseItem = ({ item, index }: { item: Course; index: number }) => {
-    const accentColor = colors[index % colors.length]; // Cycle through colors
+    const accentColor = colors[index % colors.length]; 
 
     return (
       <TouchableOpacity
