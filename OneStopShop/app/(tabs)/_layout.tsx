@@ -74,6 +74,15 @@ export default function TabLayout() {
             headerRight: () => <HeaderRightProfileButton />,
           }}
         />
+        {/* Courses Tab */}
+        <Tabs.Screen
+          name="courses"
+          options={{
+            title: 'Courses',
+            tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
+            headerRight: () => <HeaderRightProfileButton />,
+          }}
+        />
       </Tabs>
     </DataProvider>
   );

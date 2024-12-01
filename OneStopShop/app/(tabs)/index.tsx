@@ -3,6 +3,7 @@ import { StyleSheet, View, FlatList, Alert } from 'react-native';
 import { Text } from '@/components/Themed';
 import { useDataContext } from '@/data-store/dataContext';
 import AgendaItem from '@/components/AgendaItem';
+import { CalendarEntry } from '@/data-store/types';
 
 /**
  * 'Agenda Screen' component that displays a list of calendar entries grouped by date.
