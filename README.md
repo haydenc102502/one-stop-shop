@@ -1,5 +1,7 @@
 # One Stop Shop
 
+[![codecov](https://codecov.io/gh/haydenc102502/one-stop-shop/graph/badge.svg?token=TGHIRRBIGJ)](https://codecov.io/gh/haydenc102502/one-stop-shop)
+
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Introduction
