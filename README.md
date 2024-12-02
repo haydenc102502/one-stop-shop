@@ -95,10 +95,10 @@ The One Stop Shop application seeks to address the shortfalls of RIT’s apps by
 
 ### Team members
 
-- AJ Barea
-- Hayden Cabral
-- Roman Kozulia
-- Ivan Rojas
+- [AJ Barea](https://www.linkedin.com/in/aj-barea/)
+- [Hayden Cabral](https://www.linkedin.com/in/haydencabral/)
+- [Roman Kozulia](https://www.linkedin.com/in/roman-kozulia-555698172/)
+- [Ivan Rojas](https://www.linkedin.com/in/ivanrojasrit/)
 
 ## Development Setup
 
@@ -165,6 +165,9 @@ For more detailed instructions, refer to the [Expo documentation](https://docs.e
 ## Libraries used
 
 - **React Native Calendars**: <https://github.com/wix/react-native-calendars>
+- **React Native Elements**: <https://github.com/react-native-elements/react-native-elements>
+- **React Native Gesture Handler**: <https://github.com/software-mansion/react-native-gesture-handler>
+- **React Native Reanimated**: <https://github.com/software-mansion/react-native-reanimated>
 
 ## Documentation
 
