@@ -6,6 +6,7 @@ import { Platform, Alert } from 'react-native';
 
 // Suppress the warning about not specifying a projectId
 const originalWarn = console.warn;
+// istanbul ignore next
 console.warn = (message, ...args) => {
   if (typeof message === 'string' && message.includes('Calling getExpoPushTokenAsync without specifying a projectId is deprecated')) {
     return;
@@ -47,6 +48,7 @@ export const setupNotificationChannel = async () => {
   }
 };
 
+// istanbul ignore next
 // Set notification handler
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

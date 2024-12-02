@@ -22,6 +22,8 @@ export interface CalendarEntry {
   description: string;
   calendarEntryCategory: CalendarEntryCategory;
   pushNotified: boolean;
+  completed?: boolean;
+  completedTime?: string;
 }
 
 export type RootStackParamList = {

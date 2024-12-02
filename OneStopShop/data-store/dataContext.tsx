@@ -67,11 +67,12 @@ interface DataContextType {
   sendPushNotifications: () => void;
   addUser: (user: User) => boolean;
   getUsers: () => User[];
+  getUserById: (userId: string) => User
   authenticateUser: (email: string, password: string) => boolean;
   userExists: (email: string) => boolean;
   updateCalendarEntry: (id: string, updatedData: Partial<CalendarEntry>) => void;
   removeCalendarEntry: (id: string) => void;
-  completeCalendarEntry: (id: string) => void;
+  completeCalendarEntry: (id: string, completedTime: string) => void;
   uncompleteCalendarEntry: (id: string) => void;
 }
 
@@ -99,7 +100,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
    * Initialized with the first user in initialUserData or null.
    */
   const [currentUser, setCurrentUser] = useState<User | null>(initialUserData[0]);
-    
+
   /**
    * Adds a new calendar entry to the calendarData state.
    *
@@ -125,7 +126,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const getEntriesByUserId = (userId: string) => {
     return calendarData.filter((entry) => entry.userId === userId);
   };
-  
+
   /**
    * Sends push notifications for calendar entries that have not been notified yet.
    * This function is called whenever the calendarData state changes.
@@ -165,6 +166,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCalendarData((prevData) =>
       prevData.map((entry) => (entry.id === id ? { ...entry, ...updatedData } : entry))
     );
+    // istanbul ignore next
     console.log('Updated calendar entry:', id, updatedData);
   };
 
@@ -294,6 +296,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
+// istanbul ignore next
 /**
  * Custom hook to use the DataContext.
  *

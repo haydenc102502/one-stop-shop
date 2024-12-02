@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Alert, View, Text, TouchableOpacity, Button, Modal, TextInput } from 'react-native';
 import { CalendarEntryCategory } from '@/data-store/calendarEntryCategory';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // Explicitly type the isEmpty function to accept any object or undefined
 const isEmpty = (obj: Record<string, unknown> | undefined | null): boolean => {
@@ -81,6 +82,24 @@ const AgendaItem = (props: ItemProps) => {
     return description.length > 10 ? `${description.substring(0, 10)}...` : description;
   };
 
+  /**
+   * Get the icon name based on the category of the task
+   * @param category the category of the task
+   * @returns the icon name based on the category
+   */
+  const getIconName = (category: CalendarEntryCategory | undefined) => {
+    switch (category) {
+      case CalendarEntryCategory.ANNOUNCEMENT:
+        return 'bullhorn';
+      case CalendarEntryCategory.GRADES:
+        return 'calculator';
+      case CalendarEntryCategory.ASSIGNMENT:
+        return 'newspaper-o';
+      default:
+        return 'calendar';
+    }
+  };
+
   /* If the item is empty, return a view with a message saying 'No Events Planned Today' */
   if (isEmpty(item)) {
     return (
@@ -94,14 +113,17 @@ const AgendaItem = (props: ItemProps) => {
   return (
     <TouchableOpacity onPress={handlePress} style={[styles.item, item.completed ? styles.completedItem : styles.uncompletedItem]}>
       <View style={styles.itemHeader}>
-        <Text style={styles.itemTitleText}>{item.title}</Text>
-        <View>
+        <View style={styles.iconContainer}>
+          <Icon name={getIconName(item.calendarEntryCategory)} size={24} color="#F76902" />
+        </View>
+        <View style={styles.itemDetails}>
+          <Text style={styles.itemTitleText}>{item.title}</Text>
+          <Text style={styles.itemDescriptionText}>{truncateDescription(item.description)}</Text>
+        </View>
+        <View style={styles.itemTimeContainer}>
           <Text style={styles.itemHourText}>{item.time}</Text>
           <Text style={styles.itemDurationText}>{item.duration}</Text>
         </View>
-      </View>
-      <View>
-        <Text style={styles.itemDescriptionText}>{truncateDescription(item.description)}</Text>
       </View>
       {item.completed && (
         <View>
@@ -111,79 +133,92 @@ const AgendaItem = (props: ItemProps) => {
       <View style={styles.itemButtonContainer}>
         {item.completed ? (
           <>
-            <Button color={'grey'} title={'Uncomplete'} onPress={onUncomplete} />
-            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+            <TouchableOpacity style={styles.button} onPress={onUncomplete}>
+              <Text style={styles.buttonText}>Uncomplete</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={onRemove}>
+              <Text style={styles.buttonText}>Remove</Text>
+            </TouchableOpacity>
           </>
         ) : (
           <>
-            <Button color={'grey'} title={'Complete'} onPress={handleComplete} />
-            <Button color={'grey'} title={'Update'} onPress={() => setModalVisible(true)} />
-            <Button color={'grey'} title={'Remove'} onPress={onRemove} />
+            <TouchableOpacity style={styles.button} onPress={handleComplete}>
+              <Text style={styles.buttonText}>Complete</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+              <Text style={styles.buttonText}>Update</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={onRemove}>
+              <Text style={styles.buttonText}>Remove</Text>
+            </TouchableOpacity>
           </>
         )}
-        </View>
+      </View>
 
-      {/* Modal to update the task */}
       <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-          testID="modal-container"
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>Update Task</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Title"
-                value={updatedTitle}
-                onChangeText={setUpdatedTitle}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Description"
-                value={updatedDescription}
-                onChangeText={setUpdatedDescription}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Day (e.g., 2024-10-29)"
-                value={updatedDay}
-                onChangeText={setUpdatedDay}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Hour"
-                value={updatedHour}
-                onChangeText={setUpdatedHour}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Duration"
-                value={updatedDuration}
-                onChangeText={setUpdatedDuration}
-              />
-              <View style={styles.categoryRow}>
-                {Object.values(CalendarEntryCategory).map((cat) => (
-                  <TouchableOpacity
-                    key={cat}
-                    style={[styles.categoryButton, updatedCategory === cat && styles.selectedCategoryButton]}
-                    onPress={() => setUpdatedCategory(cat)}
-                  >
-                    <Text style={updatedCategory === cat ? styles.selectedCategoryText : styles.categoryText}>
-                      {cat}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View style={styles.modalButtonContainer}>
-                <Button title="Cancel" onPress={() => setModalVisible(false)} color="gray" />
-                <Button title="Update" onPress={handleUpdate} color="#F76902" />
-              </View>
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+        testID="modal-container"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Update Task</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Title"
+              value={updatedTitle}
+              onChangeText={setUpdatedTitle}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Description"
+              value={updatedDescription}
+              onChangeText={setUpdatedDescription}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Day (e.g., 2024-10-29)"
+              value={updatedDay}
+              onChangeText={setUpdatedDay}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Hour"
+              value={updatedHour}
+              onChangeText={setUpdatedHour}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Duration"
+              value={updatedDuration}
+              onChangeText={setUpdatedDuration}
+            />
+            <View style={styles.categoryRow}>
+              {Object.values(CalendarEntryCategory).map((cat) => (
+                <TouchableOpacity
+                  key={cat}
+                  style={[styles.categoryButton, updatedCategory === cat && styles.selectedCategoryButton]}
+                  onPress={() => setUpdatedCategory(cat)}
+                >
+                  <Text style={updatedCategory === cat ? styles.selectedCategoryText : styles.categoryText}>
+                    {cat}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity style={styles.modalButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButton} onPress={handleUpdate}>
+                <Text style={styles.modalButtonText}>Update</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </View>
+      </Modal>
     </TouchableOpacity>
   );
 };
@@ -206,8 +241,17 @@ const styles = StyleSheet.create({
   },
   itemHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  iconContainer: {
+    marginRight: 10,
+  },
+  itemDetails: {
+    flex: 1,
+  },
+  itemTimeContainer: {
+    alignItems: 'flex-end',
   },
   itemHourText: {
     color: 'grey',
@@ -238,6 +282,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
+  },
+  button: {
+    backgroundColor: '#F76902',
+    paddingVertical: 5, // Reduced from 10 to 5
+    paddingHorizontal: 10, // Reduced from 20 to 10
+    borderRadius: 8,
+    marginHorizontal: 5,
+    borderWidth: 1, // Added border width
+    borderColor: 'black', // Added border color
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   emptyItem: {
     paddingLeft: 20,
@@ -282,24 +340,41 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
   },
+  modalButton: {
+    backgroundColor: '#F76902',
+    paddingVertical: 5, // Reduced from 10 to 5
+    paddingHorizontal: 10, // Reduced from 20 to 10
+    borderRadius: 8,
+    marginHorizontal: 5,
+    borderWidth: 1, // Added border width
+    borderColor: 'black', // Added border color
+  },
+  modalButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   categoryRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginVertical: 10,
   },
   categoryButton: {
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ccc',
   },
   selectedCategoryButton: {
     backgroundColor: '#F76902',
+    borderColor: '#F76902',
   },
   categoryText: {
-    color: '#000',
+    color: 'black',
+    fontWeight: 'bold',
   },
   selectedCategoryText: {
-    color: '#fff',
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
