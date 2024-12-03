@@ -17,9 +17,6 @@ type CourseDetailsRouteProp = RouteProp<
   'CourseDetails'
 >;
 
-const Tab = createMaterialTopTabNavigator();
-
-
 const ContentScreen: React.FC = () => (
   <SafeAreaView style={styles.screenContainer}>
     <Text style={styles.text}>Content for the course will be displayed here.</Text>
@@ -31,6 +28,8 @@ const GradesScreen: React.FC = () => (
     <Text style={styles.text}>Grades and assessments will be displayed here.</Text>
   </SafeAreaView>
 );
+
+const Tab = createMaterialTopTabNavigator();
 
 /**
  * Course details screen that has a course content and grades when clicking on a course.
