@@ -281,7 +281,7 @@ describe('DataContext', () => {
 
     expect(getByTestId('user-count').props.children).toBe(2);
 
-    expect(getByTestId('calendar-count').props.children).toBe(6); // Updated count to match initial data
+    expect(getByTestId('calendar-count').props.children).toBe(28); // Updated count to match initial data
   });
 
   test('should authenticate a user with correct credentials', () => {
@@ -360,7 +360,7 @@ describe('DataContext', () => {
       </DataProvider>
     );
 
-    expect(getByTestId('calendar-count').props.children).toBe(7); // Updated count to match initial data
+    expect(getByTestId('calendar-count').props.children).toBe(29); // Updated count to match initial data
   });
 
   test('should update a calendar entry', () => {
@@ -382,7 +382,7 @@ describe('DataContext', () => {
       </DataProvider>
     );
 
-    expect(getByTestId('calendar-count').props.children).toBe(5);
+    expect(getByTestId('calendar-count').props.children).toBe(27);
   });
 
   test('should retrieve all users', () => {
@@ -412,7 +412,7 @@ describe('DataContext', () => {
       </DataProvider>
     );
 
-    expect(getByTestId('user-entries-count').props.children).toBe(3); // Updated count to match initial data
+    expect(getByTestId('user-entries-count').props.children).toBe(24); // Updated count to match initial data
   });
 
   test('should retrieve a user by their user ID', () => {
