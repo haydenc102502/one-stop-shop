@@ -15,7 +15,7 @@ interface Course {
 }
 
 /**
- * Dummy courses for now- we don't have the power yet
+ * Dummy courses for now- we don't have the power from SIS yet
  */
 const courses: Course[] = [
   { id: '1', title: 'Introduction to Software Engineering'},
